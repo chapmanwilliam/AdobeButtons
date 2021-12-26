@@ -216,7 +216,7 @@ function Normalise(Bm, nLevel, new_doc){ //make all the bookmarks in the new doc
 	return false;	
 }
 
-var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisting)
+var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisting, OldPagination)
 {
 	//Extracts bookmarks in colour into separate file
 	//Returns true if all ok
@@ -255,7 +255,7 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 			bHidden: true
 			});
 			//Add old pages to top right
-			AddPagination(comb_doc, override);
+			if(OldPagination)AddPagination(comb_doc, override);
 		}catch (e){
 			console.println("Problem opening extracted file " + comb_path);
 			ErrorReport+="Problem opening extracted file " + comb_path + "\n\n";	
@@ -312,7 +312,7 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 				});
 
 					//Add old pages to top right
-					AddPagination(new_doc, override);
+					if(OldPagination) AddPagination(new_doc, override);
 
 					//delete the non-required pages (do the end pages first to keep the numbering correct)
 					if(e<oDoc.numPages-1) new_doc.deletePages({nStart: e+1, nEnd: new_doc.numPages-1}); //from the page after the end to the end of the document
@@ -492,6 +492,7 @@ var EXTRACTBkDlg =
         {
             "Titl": this.strTitle,
             "byDB": this.bDelete,
+			"byAP": this.bOldPagination,
             "stat": "Extracts pages from coloured bookmarks.",
         };
 		dlgInit[this.bCombine?"byCM":"bySP"] = true;
@@ -502,7 +503,7 @@ var EXTRACTBkDlg =
         var oRslt = dialog.store();
 		this.bCombine = oRslt["byCM"];
 		this.bDelete=oRslt["byDB"];
-
+		this.bOldPagination=oRslt["byAP"];
     },
     description:
     {
@@ -566,6 +567,20 @@ var EXTRACTBkDlg =
                                         item_id: "byDB",
                                         name: "Delete pages after extraction",
                                         variable_Name: "bDelete",
+                                    },
+                                ]
+                            },
+                            {
+                                type: "view",
+								alignment: "align_fill",
+								align_children: "align_row",
+                                elements:
+                                [
+                                    {
+                                        type: "check_box",
+                                        item_id: "byAP", //old pagination
+                                        name: "Add old pagination",
+                                        variable_Name: "bOldPagination",
                                     },
                                 ]
                             },
@@ -638,13 +653,14 @@ var DoEXTRACT = app.trustedFunction(function(oDoc)
 	var n=FindNumBks(oDoc.bookmarkRoot.children,nDepth)
 	EXTRACTBkDlg.bCombine=true;	
 	EXTRACTBkDlg.bDelete=false;	
+	EXTRACTBkDlg.bOldPagination=false;
 
 	if("ok" == app.execDialog(EXTRACTBkDlg)){
 
-
 		var Combine=EXTRACTBkDlg.bCombine;
 		var DeleteExisting=EXTRACTBkDlg.bDelete;
-		console.println(Combine);
+		var OldPagination=EXTRACTBkDlg.bOldPagination;
+		//console.println(Combine);
 
 		//Use same routines to order the pages
 		BkMks.length=0;  //Clear the array
@@ -666,7 +682,7 @@ var DoEXTRACT = app.trustedFunction(function(oDoc)
 
 		//Check bookmarks are sorted in order of pages
 		var ErrorReport=CheckPageData(BkMks);
-		ErrorReport+=ExtractPages(oDoc,BkMks,Combine, DeleteExisting);
+		ErrorReport+=ExtractPages(oDoc,BkMks,Combine, DeleteExisting, OldPagination);
 	
 /*		if(!Combine)app.alert(NumSuccessfulExtractions(BkMks) + " successfully extracted files.\n\nThey are saved in the same folder as the main file.\n\n" + ErrorReport);
 		if(Combine){
