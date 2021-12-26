@@ -15,11 +15,6 @@ function RemoveBraces(Bm){
 	return RemoveBracesFromString(Bm.name);
 }
 
-
-
-
-
-
 function getLengthDoc(str){
     //gets the start and end of the BkMk when indicated in {} at end of name
 	const regexp = /\{(.*?)\}/g;
@@ -33,13 +28,12 @@ function getLengthDoc(str){
 		var res=null;
 		!isNaN(s) ? res=parseInt(s) : res= null; //if a number
 		(res>0) ?  res=res : res=null;
-		console.println(res);
+		//console.println(res);
 		return res;
 	}else{
 	   return null;
 	}
 }
-
 
 function GetNextBm(oDoc,i,p){
 	//returns the page no of the next bookmark for this p[i] n
@@ -229,6 +223,7 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 	var ErrorReport="";
 	app.beginPriv();
 	
+	var override={vert: "PosT", prefix: "OldPage_Label", col:"Green"}; //for override pagination
 	var num_ext=NumExtractions(BkMks);
 	//console.println("Num matches " + num_ext);
 	app.thermometer.end();
@@ -259,6 +254,8 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 			cPath: comb_path,
 			bHidden: true
 			});
+			//Add old pages to top right
+			AddPagination(comb_doc, override);
 		}catch (e){
 			console.println("Problem opening extracted file " + comb_path);
 			ErrorReport+="Problem opening extracted file " + comb_path + "\n\n";	
@@ -271,13 +268,13 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 	for(var i=0;i<comb_del_pages.length;i++) comb_del_pages[i]=true; //i.e. set each page to true to delete by default
 	
 	for(var i=0;i<BkMks.length;i++){
-		app.thermometer.text="Extracting page data from "+ i +" of " + app.thermometer.duration + " bookmarks."
+		//app.thermometer.text="Extracting page data from "+ i +" of " + app.thermometer.duration + " bookmarks."
 		
 		if(BkMks[i].extract){ //if this is one to extract
 		
 			app.thermometer.value++;
-			console.println(app.thermometer.value);
-			app.thermometer.text="Extracting page data from "+ app.thermometer.value +" of " + app.thermometer.duration + " bookmarks."
+			//console.println(app.thermometer.value);
+			app.thermometer.text="Extracting page data from "+ i +" of " + num_ext + " bookmarks."
 			//console.println(app.thermometer.value + " " + app.thermometer.duration);
 		
 			var s=BkMks[i].PageRef;
@@ -313,71 +310,70 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 						cPath: path,
 						bHidden: true
 				});
-				
-				//Watermark the pages
-				var override={vert: "PosT", prefix: 'OldPage_Label'};
-				AddPagination(new_doc,override);
-				
-				//delete the non-required pages (do the end pages first to keep the numbering correct)
-				if(e<oDoc.numPages-1) new_doc.deletePages({nStart: e+1, nEnd: new_doc.numPages-1}); //from the page after the end to the end of the document
-				if(s>0) new_doc.deletePages({nStart: 0, nEnd:s-1}); //from the beginning of doc to page before start
-				
-				
-				//delete the non_required bookmarks
-				//move the index bookmark to the start; delete the rest
-				ext_count=0;
-				//console.println("Finding " + i);
-				var index_bm=FindBookmark(new_doc.bookmarkRoot, 0, new_doc, i);
-				if(index_bm==null){
-						console.println("Error: index_bm is null");
-					}else{
-						//console.println("Index bookmark " + index_bm.name);
-						new_doc.bookmarkRoot.insertChild(index_bm);
-				}
-				//Delete the other bookmarks
-				var l=new_doc.bookmarkRoot.children.length;
-				for(var j=1;j<l;j++) new_doc.bookmarkRoot.children[new_doc.bookmarkRoot.children.length-1].remove();
-				//Now move any children of the top bookmark to the top (starting from the last
-				var top_bm=new_doc.bookmarkRoot.children[0];
-				if(top_bm!=null){
-					if(top_bm.children!=null){
-						var l=top_bm.children.length;
-						for(var j=0;j<l;j++) new_doc.bookmarkRoot.insertChild(top_bm.children[top_bm.children.length-1]);
-					}else{
-						//console.println("Top bm children is null");
+
+					//Add old pages to top right
+					AddPagination(new_doc, override);
+
+					//delete the non-required pages (do the end pages first to keep the numbering correct)
+					if(e<oDoc.numPages-1) new_doc.deletePages({nStart: e+1, nEnd: new_doc.numPages-1}); //from the page after the end to the end of the document
+					if(s>0) new_doc.deletePages({nStart: 0, nEnd:s-1}); //from the beginning of doc to page before start
+
+
+					//delete the non_required bookmarks
+					//move the index bookmark to the start; delete the rest
+					ext_count=0;
+					//console.println("Finding " + i);
+					var index_bm=FindBookmark(new_doc.bookmarkRoot, 0, new_doc, i);
+					if(index_bm==null){
+							console.println("Error: index_bm is null");
+						}else{
+							//console.println("Index bookmark " + index_bm.name);
+							new_doc.bookmarkRoot.insertChild(index_bm);
 					}
-				}else{
-					console.println("Error: Top bm is null");
-				}
-				//delete the last bookmark (now empty parent)
-				new_doc.bookmarkRoot.children[new_doc.bookmarkRoot.children.length-1].remove();
-				
-				//Remove [], legal numbering and pagination
-				//Remove []
-				RemovePageLabels(new_doc.bookmarkRoot, 0, new_doc,0);  //Remove the page labels
-				new_doc.info.SqExists=false;		
+					//Delete the other bookmarks
+					var l=new_doc.bookmarkRoot.children.length;
+					for(var j=1;j<l;j++) new_doc.bookmarkRoot.children[new_doc.bookmarkRoot.children.length-1].remove();
+					//Now move any children of the top bookmark to the top (starting from the last
+					var top_bm=new_doc.bookmarkRoot.children[0];
+					if(top_bm!=null){
+						if(top_bm.children!=null){
+							var l=top_bm.children.length;
+							for(var j=0;j<l;j++) new_doc.bookmarkRoot.insertChild(top_bm.children[top_bm.children.length-1]);
+						}else{
+							//console.println("Top bm children is null");
+						}
+					}else{
+						console.println("Error: Top bm is null");
+					}
+					//delete the last bookmark (now empty parent)
+					new_doc.bookmarkRoot.children[new_doc.bookmarkRoot.children.length-1].remove();
 
-				//Remove legal numbering
-				RemoveLegalNum(new_doc.bookmarkRoot, 0, new_doc, 0);  //Remove the legal numbering
-				new_doc.info.LegalNumExists=false;
-				
-				//Remove pagination
-				RemovePagination(new_doc, false);
-				new_doc.info.PaginationExists=false;
-				
-				//Normalise the style and colour
-				Normalise(new_doc.bookmarkRoot,0,new_doc);
+					//Remove [], legal numbering and pagination
+					//Remove []
+					RemovePageLabels(new_doc.bookmarkRoot, 0, new_doc,0);  //Remove the page labels
+					new_doc.info.SqExists=false;
 
-				//Save the new_doc
-				new_doc.saveAs({cPath: path});
-				//Close the new_doc
-				new_doc.closeDoc({bNoSave:true});
-				//Add doc to comb_doc
-				//comb_doc.insertPages({cPath: path, nPage:-1});
+					//Remove legal numbering
+					RemoveLegalNum(new_doc.bookmarkRoot, 0, new_doc, 0);  //Remove the legal numbering
+					new_doc.info.LegalNumExists=false;
+
+					//Remove pagination
+					RemovePagination(new_doc, false);
+					new_doc.info.PaginationExists=false;
+
+					//Normalise the style and colour
+					Normalise(new_doc.bookmarkRoot,0,new_doc);
+
+					//Save the new_doc
+					new_doc.saveAs({cPath: path});
+					//Close the new_doc
+					new_doc.closeDoc({bNoSave:true});
+					//Add doc to comb_doc
+					//comb_doc.insertPages({cPath: path, nPage:-1});
 			}catch(e){
-				console.println("Problem opening copy extracted file " + path + " " + e);
-				ErrorReport+="Problem opening copy extracted file " + path + "\n\n";
-				BkMks[i].OK=false; //flag this one as a problem file
+					console.println("Problem opening copy extracted file " + path + " " + e);
+					ErrorReport+="Problem opening copy extracted file " + path + "\n\n";
+					BkMks[i].OK=false; //flag this one as a problem file
 			}
 		  }
 		
@@ -609,7 +605,7 @@ function CalculateChunkSizes(oDoc){
 
 		 //Now calculate the chunk sizes
 		for (var i=0;i<BkMks.length; i++){
-		    console.println(BkMks[i].Name + ": " + BkMks[i].PageEnd);
+		    //console.println(BkMks[i].Name + ": " + BkMks[i].PageEnd);
 			if(BkMks[i].PageEnd){ //i.e. the size of the chunk is specified in braces {P100-P202}
 				BkMks[i].Chunk=BkMks[i].PageEnd-BkMks[i].PageRef;
 			}else{

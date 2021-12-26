@@ -51,7 +51,7 @@ function GetPaginateRect(oDoc, Pg, vert, nTxtSize, Fnt, MargX, MargY){
 
 
 //function AddPagination(oDoc){
-var AddPagination=app.trustedFunction(function(oDoc,override=null){
+var AddPagination=app.trustedFunction(function(oDoc,override=undefined){
 		app.beginPriv();
 		var prefix="PageLabel"; //default prefix for field name
 		var inch=72;
@@ -96,10 +96,12 @@ var AddPagination=app.trustedFunction(function(oDoc,override=null){
 		if(typeof(oDoc.info.NFPGstrHorzPos)=="undefined" || oDoc.info.NFPGstrHorzPos==""){ oDoc.info.NFPGstrHorzPos="PosR"; horz=GetAlignment(oDoc.info.NFPGstrHorzPos);}else{ horz=GetAlignment(oDoc.info.NFPGstrHorzPos);}
 		
 		 //var wdth=GetMaxWidth(oDoc,nTxtSize,Fnt);
-		 if(!override==null){
-		 	prefix=override.prefix;
-		 	vert=override.vert;
+		 if(typeof override!="undefined"){
+			 prefix=override.prefix;
+			 vert=override.vert;
+			 col=GetColor(override.col);
 		 }
+		 console.println(override);
 		 console.println('Log ' + prefix + ", " + vert);
 
 		var t=app.thermometer;
@@ -107,7 +109,7 @@ var AddPagination=app.trustedFunction(function(oDoc,override=null){
 		t.begin();
 		for(i=0;i<oDoc.numPages;i++){
 				t.value=i;
-				t.text = "Adding pagination to page  " + (i+1)+ " of " + oDoc.numPages + " pages";
+				t.text = "Adding pagination to page " + (i+1)+ " of " + oDoc.numPages + " pages";
 				if (t.cancelled){
 					break;
 				}
