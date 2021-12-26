@@ -132,7 +132,7 @@ function CheckPageData(BkMks){
 
 	for(var i=1;i<BkMks.length;i++){
 		app.thermometer.value=i;
-		app.thermometer.text="Checking page data ["+i+"] of " + BkMks.length + " bookmarks."
+		app.thermometer.text="Checking page data "+i+" of " + BkMks.length + " bookmarks."
 
 		if(BkMks[i].PageRef<s && BkMks[i].extract) {
 			console.println(BkMks[i].Name + " page " + BkMks[i].page_label);
@@ -232,7 +232,20 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 	app.thermometer.begin();
 
 	if(BkMks==null || BkMks.length==0) return false;
-	
+
+	if(OldPagination) {
+		//Add page source to bookmark file names
+		BkMks.forEach(function(part, index, BkMks) {
+			BkMks[index].Name = BkMks[index].Name + " (" + BkMks[index].page_label + ")";
+		});
+		var n = FindNumBks(oDoc.bookmarkRoot.children, 10);
+		RemovePageLabels(oDoc.bookmarkRoot, 0, oDoc, n);  //Remove the page labels
+		AddPageLabels(oDoc.bookmarkRoot, 0, oDoc, n);  //Add the page labels
+		SearchReplace(oDoc.bookmarkRoot, 0, 10, oDoc, "[", "<");
+		SearchReplace(oDoc.bookmarkRoot, 0, 10, oDoc, "]", ">");
+	}
+
+
 	var p=oDoc.path.replace(/\/[^\/]+pdf$/,"/");
 	var doc_name=oDoc.documentFileName.replace(/\.pdf$/i,"");
 	var comb_path=p+ doc_name + " (extracted).pdf";
@@ -255,7 +268,9 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 			bHidden: true
 			});
 			//Add old pages to top right
-			if(OldPagination)AddPagination(comb_doc, override);
+			if(OldPagination) {
+				AddPagination(comb_doc, override);
+			}
 		}catch (e){
 			console.println("Problem opening extracted file " + comb_path);
 			ErrorReport+="Problem opening extracted file " + comb_path + "\n\n";	
@@ -268,7 +283,9 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 	for(var i=0;i<comb_del_pages.length;i++) comb_del_pages[i]=true; //i.e. set each page to true to delete by default
 
 	//Add old pages to top right on existing doc to save time
-	if(OldPagination && !Combine) AddPagination(oDoc, override);
+	if(OldPagination && !Combine) {
+		AddPagination(oDoc, override);
+	}
 
 
 	for(var i=0;i<BkMks.length;i++){
@@ -382,12 +399,17 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 		}
 	}
 	app.thermometer.end();
-	
+	app.thermometer.value=0;
+	app.thermometer.duration=comb_del_pages.length;
+	app.thermometer.begin();
+
 	if(Combine){ //Deal with the combined file if chosen
 		//Delete the pages from the combined file
 		try{
 			for(var i=comb_del_pages.length-1;i>=0;i--){
 					//console.println(i + " " + comb_del_pages[i]);
+					app.thermometer.value++;
+					app.thermometer.text="Extracting page data from "+ i +" of " + comb_del_pages.length + " bookmarks."
 					if(comb_del_pages[i]) comb_doc.deletePages({nStart:i});
 				}
 			ErrorReport+="Saved pages to single file in the same folder as the original.\n\n";
@@ -395,6 +417,9 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 			console.println("Problem removing pages from combined file.");
 			ErrorReport+="Problem removing pages from combined file\n\n";
 		}
+
+		app.thermometer.end();
+
 		//Insert folder bookmark
 		comb_doc.bookmarkRoot.createChild("Folder_BM");
 		var Folder_BM=comb_doc.bookmarkRoot.children[0];
@@ -406,7 +431,9 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 		//Normalise the style and colour
 		Normalise(comb_doc.bookmarkRoot,0,comb_doc);
 		DoREFRESH(comb_doc);
-	
+		SearchReplace(comb_doc.bookmarkRoot, 0, 10, oDoc, "<", "(");
+		SearchReplace(comb_doc.bookmarkRoot, 0, 10, oDoc, ">", ")");
+
 		//save the combined file and close it	
 		try{
 			comb_doc.saveAs({cPath: comb_path});
@@ -418,10 +445,14 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 	}
 
 
-	if(OldPagination && !Combine)RemovePagination(oDoc,false,true);
+	if(OldPagination && !Combine){ //Remove old pagination from old doc
+		RemovePagination(oDoc,false,true);
+	}
 
 	if(DeleteExisting) ErrorReport+=DeleteExtractedPages(oDoc, BkMks);
-	
+	SearchReplace(oDoc.bookmarkRoot, 0, 10, oDoc, "<", "[");
+	SearchReplace(oDoc.bookmarkRoot, 0, 10, oDoc, ">", "]");
+
 		
 	app.endPriv();
 	return ErrorReport;

@@ -8,7 +8,7 @@
 	var pattern_alphabet=/(.*?)([A-Z]+$)/i    //i.e. anything followed by a space or a non-letter followed by letters
 
 
-function SearchReplace(Bm, nLevel, nLvlMax, oDoc, S, R, Reg, MtchCase, bColor, col, b_date, from_date, to_date, b_whole_words, bReplace, bBold, bItalics, bPlain, bInclude_Non_Dates, bSkipItalicised){
+function SearchReplace(Bm=null, nLevel=0, nLvlMax=100, oDoc=null, S="", R="", Reg=false, MtchCase=false, bColor=false, col='black', b_date=false, from_date=null, to_date=null, b_whole_words=false, bReplace=true, bBold=false, bItalics=false, bPlain=false, bInclude_Non_Dates=false, bSkipItalicised=false){
 
 	//check if this bookmark is within date
 	bWithinDate=true;
@@ -45,6 +45,8 @@ function SearchReplace(Bm, nLevel, nLvlMax, oDoc, S, R, Reg, MtchCase, bColor, c
 			if(bReplace)Bm.name=Bm.name.replace(pat,R).trim();
 			if(bColor) Bm.color=col;
 			if(sty!=null) Bm.style=sty;
+			console.println("R: " + R);
+			console.println("Result: " + Bm.name);
 		}
 	}	
 
