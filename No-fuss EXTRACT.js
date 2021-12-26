@@ -293,7 +293,7 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 		
 		if(BkMks[i].extract){ //if this is one to extract
 		
-			app.thermometer.value++;
+			app.thermometer.value=i;
 			//console.println(app.thermometer.value);
 			app.thermometer.text="Extracting page data from "+ i +" of " + num_ext + " bookmarks."
 			//console.println(app.thermometer.value + " " + app.thermometer.duration);
