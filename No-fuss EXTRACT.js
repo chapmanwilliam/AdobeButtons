@@ -223,7 +223,7 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 	var ErrorReport="";
 	app.beginPriv();
 	
-	var override={vert: "PosT", prefix: "OldPage_Label", col:"Green"}; //for override pagination
+	var override={vert: "PosT", prefix: "OldPage_Label", col:"Green", nTxtSize:12}; //for override pagination
 	var num_ext=NumExtractions(BkMks);
 	//console.println("Num matches " + num_ext);
 	app.thermometer.end();
@@ -266,7 +266,11 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 	
 	var comb_del_pages=new Array(oDoc.numPages); //for storing which pages need deleting
 	for(var i=0;i<comb_del_pages.length;i++) comb_del_pages[i]=true; //i.e. set each page to true to delete by default
-	
+
+	//Add old pages to top right on existing doc to save time
+	if(OldPagination && !Combine) AddPagination(oDoc, override);
+
+
 	for(var i=0;i<BkMks.length;i++){
 		//app.thermometer.text="Extracting page data from "+ i +" of " + app.thermometer.duration + " bookmarks."
 		
@@ -311,8 +315,6 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 						bHidden: true
 				});
 
-					//Add old pages to top right
-					if(OldPagination) AddPagination(new_doc, override);
 
 					//delete the non-required pages (do the end pages first to keep the numbering correct)
 					if(e<oDoc.numPages-1) new_doc.deletePages({nStart: e+1, nEnd: new_doc.numPages-1}); //from the page after the end to the end of the document
@@ -414,7 +416,10 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 			ErrorReport+="Failed to save the combined file " + comb_path + "\n\n";
 		}
 	}
-	
+
+
+	if(OldPagination && !Combine)RemovePagination(oDoc,false,true);
+
 	if(DeleteExisting) ErrorReport+=DeleteExtractedPages(oDoc, BkMks);
 	
 		

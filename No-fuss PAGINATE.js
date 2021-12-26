@@ -3,6 +3,7 @@
  //This paginates the bundle according to page labels
 
 var pattern_page_label=/PageLabel/;
+var pattern_old_page_label=/OldPage_Label/;
 var pattern_TOC=/TOC/;
 var pattern_FS=/FS/;
 var pattern_SUBS=/SUBS/;
@@ -100,6 +101,9 @@ var AddPagination=app.trustedFunction(function(oDoc,override=undefined){
 			 prefix=override.prefix;
 			 vert=override.vert;
 			 col=GetColor(override.col);
+			 nTxtSize=override.nTxtSize;
+			 MargX=0.1;
+			 MargY=0.1;
 		 }
 		 console.println(override);
 		 console.println('Log ' + prefix + ", " + vert);
@@ -141,8 +145,9 @@ var AddPagination=app.trustedFunction(function(oDoc,override=undefined){
 			app.endPriv();
 });
 
-function RemovePagination(oDoc, thermON){
-
+function RemovePagination(oDoc, thermON, old_pagination=false){
+	  		var lbl;
+			old_pagination ? lbl=pattern_old_page_label : lbl=pattern_page_label;
 			var t=app.thermometer;
 			if(thermON){
 				t.duration=oDoc.numFields;
@@ -154,7 +159,7 @@ function RemovePagination(oDoc, thermON){
 			var i=0;
 			while(i<oDoc.numFields){
 				var a=oDoc.getNthFieldName(i);
-				if(pattern_page_label.test(a)){
+				if(lbl.test(a)){
 					oDoc.removeField(a);
 					count++;
 					if(thermON){
