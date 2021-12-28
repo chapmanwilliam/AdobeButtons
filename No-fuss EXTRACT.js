@@ -5,7 +5,7 @@
 
 var ex_thm_count=0;
 var ext_count=0;
-var pattern_toggle_braces_label=/ ?\{[^\[^\]]*\}+$/;
+var pattern_toggle_braces_label=/ ?\{[^\[^\]]*\}+/;
 
 function RemoveBracesFromString(S){
 	return S.replace(pattern_toggle_braces_label,"").trim();
