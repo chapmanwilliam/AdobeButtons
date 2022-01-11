@@ -16,7 +16,7 @@ function OrderPagesMain(oDoc, bm, bStart){
 	app.thermometer.duration=n;
 	app.thermometer.begin();
 	counter_order_thm=0;
-	FillArray(oDoc, bm, bStart, n);  //Fill it with bookmarks info
+	FillArray(oDoc, bm, bStart, n, true);  //Fill it with bookmarks info
 	app.thermometer.end();
 	SortThingsOut(oDoc);  //Do a few sort routines
 	MoveThePages(oDoc);  //Move the pages into position
@@ -24,7 +24,7 @@ function OrderPagesMain(oDoc, bm, bStart){
 }
 
 
-function FillArray(oDoc, bm, bStart, n){
+function FillArray(oDoc, bm, bStart, n, bSkipItalicised=false){
 
 	 //console.println("FillArray");
 	 //console.println(bm.name);
@@ -34,7 +34,7 @@ function FillArray(oDoc, bm, bStart, n){
 	x=Math.round(counter_order_thm/n * 100);
 	app.thermometer.text="Getting bookmark info " + x + "%";
 	 //Recursive function to iterate thro' bookmarks and add them to BkMks[]
-	if(bm.name=="Root"){
+	if(bm.name=="Root" || (bSkipItalicised && bm.style==1)){
  //		console.println("Start");
 	}else{
 
@@ -68,10 +68,10 @@ function FillArray(oDoc, bm, bStart, n){
 		 //console.println(BkMks[BkMks.length-1].Order + " " + BkMks[BkMks.length-1].PageRef + " " + BkMks[BkMks.length-1].Chunk);
 	}
 
-	if (bm.children != null){
+	if (bm.children != null && !(bSkipItalicised && bm.style==1)){
 		 // if bm has children call recursively
 		for (var i = 0; i < bm.children.length; i++)  	  
-  			FillArray(oDoc, bm.children[i], bStart+1,n);
+  			FillArray(oDoc, bm.children[i], bStart+1,n, bSkipItalicised);
 		}
 	app.thermometer.end();
 }

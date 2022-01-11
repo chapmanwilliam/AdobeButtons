@@ -452,6 +452,7 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 	if(DeleteExisting) ErrorReport+=DeleteExtractedPages(oDoc, BkMks);
 	SearchReplace(oDoc.bookmarkRoot, 0, 10, oDoc, "<", "[");
 	SearchReplace(oDoc.bookmarkRoot, 0, 10, oDoc, ">", "]");
+	oDoc.dirty=false;
 
 		
 	app.endPriv();

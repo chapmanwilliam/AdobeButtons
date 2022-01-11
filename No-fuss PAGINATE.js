@@ -160,18 +160,22 @@ function RemovePagination(oDoc, thermON, old_pagination=false){
 			while(i<oDoc.numFields){
 				var a=oDoc.getNthFieldName(i);
 				if(lbl.test(a)){
-					oDoc.removeField(a);
-					count++;
-					if(thermON){
-						t.value=count;
-						t.text= "Removing pagination from page " + (count+1) + " of " + oDoc.numFields + " pages";
-						if (t.cancelled){
-							flag=false;
-							break;
+					try {
+						oDoc.removeField(a);
+						if(thermON){
+							t.value=count;
+							t.text= "Removing pagination from page " + (count+1) + " of " + oDoc.numFields + " pages";
+							if (t.cancelled){
+								flag=false;
+								break;
+							}
 						}
+						i--;
+					}catch(e){
+						console.println(e);
 					}
-					i--;
-				}			
+					count++;
+				}
 				i++;
 			}
 			if(thermON)t.end();
@@ -195,8 +199,11 @@ var PaginateNow=app.trustedFunction(function(oDoc)
  //	app.beginPriv();
 
 	if(!PaginationPresent(oDoc)){  //add pagination
+			console.println('Pagination present');
 			oDoc.info.PaginationExists=AddPagination(oDoc);
+
 		}else{  //remove pagination
+			console.println('Pagination not present');
 			oDoc.info.PaginationExists=!RemovePagination(oDoc, true);
 		}
 
