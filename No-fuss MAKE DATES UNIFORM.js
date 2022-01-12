@@ -316,6 +316,7 @@ function SwapDateFromText(Str, short_date, oDoc){
 	}
 	var LegNum=GetLegalNumberFromString(Str)!=null ? GetLegalNumberFromString(Str)+": ": "";
 	S=RemovePgLbAndLegalNumbering(Str);
+	var inbrackets=gettextinbrackets(S);
 
 	var date_part=GetDatePartFromString(S, oDoc);
 	var p=date_part.split("-"); //split by divider -
@@ -333,6 +334,7 @@ function SwapDateFromText(Str, short_date, oDoc){
 	a=a.replace(/-$/,"");//remove final partition
 	new_name=new_name+ a; //add on the addition
 	if (lengthDoc) new_name=new_name +"{" + lengthDoc.toString() + "}";
+	if (inbrackets) new_name=new_name +" (" + inbrackets + ")";
 	if (Sqflag) new_name=new_name + Pg[0];  //add back the square bracket
 	if(new_name.match(/^\,/)) new_name=new_name.replace(", ",""); //remove leading comma if just a date with comma at start
 	if(new_name.match(/^( )/)) new_name=new_name.replace(", ",""); //remove leading comma if just a date with space at start

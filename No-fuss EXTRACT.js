@@ -6,7 +6,11 @@
 var ex_thm_count=0;
 var ext_count=0;
 var pattern_toggle_braces_label=/ ?\{[^\[^\]]*\}+/;
+var pattern_toggle_brackets_label=/ ?\([^\[^\]]*\)$/;
 
+function RemoveBracketsFromString(S){
+	return S.replace(pattern_toggle_brackets_label,"").trim();
+}
 
 
 function RemoveBracesFromString(S){
@@ -17,11 +21,25 @@ function RemoveBraces(Bm){
 	return RemoveBracesFromString(Bm.name);
 }
 
+function gettextinbrackets(str){
+    //gets the text of the doc indicated in () at end of name
+	const regexp = pattern_toggle_brackets_label;
+
+	var array = str.match(regexp);
+
+	if(array && array.length>0){
+		var s=array[array.length-1]; //last element
+		s=s.replace("(","").replace(")","").replace(" ", ""); //remove braces and spaces
+		return s;
+	}else{
+	   return null;
+	}
+}
+
 function getLengthDoc(str){
     //gets the length of the doc indicated in {} at end of name
 	const regexp = /\{(.*?)\}/g;
-	console.println("BkMk name: " + str);
-	
+
 	var array = str.match(regexp);
 	
 	if(array && array.length>0){
