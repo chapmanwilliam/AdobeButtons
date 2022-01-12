@@ -8,6 +8,10 @@ var ext_count=0;
 var pattern_toggle_braces_label=/ ?\{[^\[^\]]*\}+/;
 var pattern_toggle_brackets_label=/ ?\([^\[^\]]*\)$/;
 
+function RemoveBrackets(Bm){
+	return RemoveBracketsFromString (Bm.name);
+}
+
 function RemoveBracketsFromString(S){
 	return S.replace(pattern_toggle_brackets_label,"").trim();
 }

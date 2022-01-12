@@ -57,10 +57,12 @@ function FillArray(oDoc, bm, bStart, n, bSkipItalicised=false){
 
 		bm.name=RemoveLegalNumThis(bm);  //remove legal numbering
 		bm.name=RemovePageLabel(bm);	 //strip []
+		bm.name=RemoveBrackets(bm); //strip ()
 		bm.name=RemoveBraces(bm);	 //strip {}
 		bm.name=MoveDateToStart(bm,oDoc); //moves the date to the start
 		new_name=bm.name;
 		new_name=new_name.replace("/", "-");//replace forward slashes with - to avoid folder confusion
+		console.println("New name " + new_name);
 		bm.name=old_name; //put the name back
 		
 		var BkMk={Name: new_name, OK: true, Order: BkMks.length, PageRef:p, PageEnd:e, Chunk: 0, extract: ext, Link: lnk, Lvl: bStart, page_label: oDoc.getPageLabel(p)};
