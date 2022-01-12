@@ -302,6 +302,7 @@ function MakeTimeElementUniform(T){
 function SwapDateFromText(Str, short_date, oDoc){
 	//returns Str modified to be uniform
 
+	var lengthDoc=getLengthDoc(Str);
 	var dt=GetDateFromString(RemovePgLbAndLegalNumbering(Str), oDoc);
 	if(!dt || age_element.test(RemovePgLbAndLegalNumbering(Str)) || ages_element.test(RemovePgLbAndLegalNumbering(Str)))return Str; //leave unchanged if no date
 	
@@ -331,6 +332,7 @@ function SwapDateFromText(Str, short_date, oDoc){
 	}
 	a=a.replace(/-$/,"");//remove final partition
 	new_name=new_name+ a; //add on the addition
+	if (lengthDoc) new_name=new_name +"{" + lengthDoc.toString() + "}";
 	if (Sqflag) new_name=new_name + Pg[0];  //add back the square bracket
 	if(new_name.match(/^\,/)) new_name=new_name.replace(", ",""); //remove leading comma if just a date with comma at start
 	if(new_name.match(/^( )/)) new_name=new_name.replace(", ",""); //remove leading comma if just a date with space at start

@@ -7,6 +7,8 @@ var ex_thm_count=0;
 var ext_count=0;
 var pattern_toggle_braces_label=/ ?\{[^\[^\]]*\}+/;
 
+
+
 function RemoveBracesFromString(S){
 	return S.replace(pattern_toggle_braces_label,"").trim();
 }
@@ -16,7 +18,7 @@ function RemoveBraces(Bm){
 }
 
 function getLengthDoc(str){
-    //gets the start and end of the BkMk when indicated in {} at end of name
+    //gets the length of the doc indicated in {} at end of name
 	const regexp = /\{(.*?)\}/g;
 	console.println("BkMk name: " + str);
 	
