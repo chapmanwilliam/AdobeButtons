@@ -382,7 +382,7 @@ var DoItSearch=app.trustedFunction(function(oDoc,SearchReplaceDlg){
 
 var DoSearchAndReplace = app.trustedFunction(function(oDoc)
 {
-	if(!CheckLicence())return;
+	if(!CheckPermitted())return;
 
 	app.beginPriv();
 

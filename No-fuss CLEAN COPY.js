@@ -3,7 +3,7 @@
 var CopyandClean = app.trustedFunction(function()
 { // Privileged context is necessary to prevent JavaScript warning messages on dialog
 
-   if(!CheckLicence())return;
+   if(!CheckPermitted())return;
 
    app.beginPriv();
    

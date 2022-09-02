@@ -141,7 +141,7 @@ function RefreshLegalNum(oDoc){
 
 var DoLEGAL_NUM = app.trustedFunction(function(oDoc,oDlg)
 {
-	if(!CheckLicence())return;
+	if(!CheckPermitted())return;
 
 	app.beginPriv();
 

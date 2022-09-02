@@ -220,7 +220,7 @@ var PaginateNow=app.trustedFunction(function(oDoc)
 
 var DoPAGELABELS = app.trustedFunction(function(oDoc)
 {
-	if(!CheckLicence())return;
+	if(!CheckPermitted())return;
 
  //	app.beginPriv();
 	var PgNow=oDoc.pageNum;	

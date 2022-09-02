@@ -688,7 +688,7 @@ function AddFooters(oDoc){
 
 var DoSetupBkmkFooter = app.trustedFunction(function(oDoc)
 {
-	if(!CheckLicence())return;
+	if(!CheckPermitted())return;
 
 	app.beginPriv();
 	 //Delete the footers and exit, if they exist

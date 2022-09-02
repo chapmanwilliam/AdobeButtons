@@ -372,7 +372,7 @@ function GetDateText(Bm, oDoc){
 var DoUNIFORM = app.trustedFunction(function(oDoc)
 {
 	console.println("Make dates uniform");
-	if(!CheckLicence())return;
+	if(!CheckPermitted())return;
 	var nDepth = FindMaxBkDepth(oDoc.bookmarkRoot);
 	var n=FindNumBks(oDoc.bookmarkRoot.children,nDepth);
 	Uni_Counter_thm=0;

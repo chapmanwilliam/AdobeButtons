@@ -280,7 +280,7 @@ function GetFontType(f){
 
 var No_FussMakeTableOfContents = app.trustedFunction(function(oDoc)
 {
-	if(!CheckLicence())return;
+	if(!CheckPermitted())return;
 
    app.beginPriv();
 	

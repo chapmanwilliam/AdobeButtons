@@ -706,7 +706,7 @@ function CalculateChunkSizes(oDoc){
 var DoEXTRACT = app.trustedFunction(function(oDoc)
 {
 	app.beginPriv();
-	if(!CheckLicence())return;
+	if(!CheckPermitted())return;
 
 	var Pg=oDoc.pageNum;  //note page number
 	

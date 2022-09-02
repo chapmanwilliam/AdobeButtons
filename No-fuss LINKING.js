@@ -472,7 +472,7 @@ function RefreshLinkingOnly(oDoc){ //this simply updates the links without re-im
 var NF_DoLinking = app.trustedFunction(function(oDoc)
 {
 	app.beginPriv();
-	if(!CheckLicence())return false;
+	if(!CheckPermitted())return false;
 	var PgNow=oDoc.pageNum;	
 	
 	//var page_data=[];

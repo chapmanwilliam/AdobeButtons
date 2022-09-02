@@ -69,7 +69,7 @@ var NF_DoLinkingExisting = app.trustedFunction(function(oDoc)
 {
    	app.beginPriv();
 
-	if(!CheckLicence())return false;
+	if(!CheckPermitted())return false;
 
 	var PgNow=oDoc.pageNum;	
 

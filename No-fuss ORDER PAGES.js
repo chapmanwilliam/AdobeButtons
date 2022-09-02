@@ -7,7 +7,7 @@ var counter_order_thm=0;
  // Recursive function to build page list order from current bookmark order
  //
 function OrderPagesMain(oDoc, bm, bStart){
-	if(!CheckLicence())return;
+	if(!CheckPermitted())return;
 
 	 //console.println("Main");
 	BkMks.length=0;  //Clear the array

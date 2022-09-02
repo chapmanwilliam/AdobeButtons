@@ -107,7 +107,7 @@ var EXTRACTPgsDlg =
 function extractNonSequentialPages(oDoc) {
 	//resp = app.response("Enter the page ranges you want to extract from this file:\nFor example: 1, 2, 4-20, 23- (\"23-\" means p. 23 to the end)", "Extract Pages");
 	//if (resp==null || resp=="") return;
-
+	if(!CheckPermitted())return;
 	EXTRACTPgsDlg.strTitle = "";
 	EXTRACTPgsDlg.bDeletePages=false;
 	if("ok" == app.execDialog(EXTRACTPgsDlg)){

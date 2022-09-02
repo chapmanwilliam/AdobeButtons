@@ -82,7 +82,7 @@ var PDFS_MakeBkmkGROUP = app.trustedFunction(function(oDoc)
 		
 
    	app.beginPriv();
-
+	if(!CheckPermitted())return;
 
 	var nDepth = FindMaxBkDepth(oDoc.bookmarkRoot);
 			

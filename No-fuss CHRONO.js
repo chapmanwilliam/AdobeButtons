@@ -65,7 +65,7 @@ function set_file_paths(oDoc){
 
 var No_FussMakeChronoMaker = app.trustedFunction(function(oDoc)
 {
-	if(!CheckLicence())return;
+	if(!CheckPermitted())return;
 		
    app.beginPriv();
 

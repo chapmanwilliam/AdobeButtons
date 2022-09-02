@@ -5,7 +5,7 @@
 
 var MakeFrontSheet = app.trustedFunction(function(oDoc)
 {
-	if(!CheckLicence())return;
+	if(!CheckPermitted())return;
 
    app.beginPriv();
 	

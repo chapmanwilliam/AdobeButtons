@@ -1526,7 +1526,7 @@ function GetMinMaxDates(Bm, nLvl, nLvlMax, oDoc)
 
 var DoSORT_BKMKS = app.trustedFunction(function(oDoc,oDlg)
 {
-	if(!CheckLicence())return;
+	if(!CheckPermitted())return;
 
 
 	app.beginPriv();
