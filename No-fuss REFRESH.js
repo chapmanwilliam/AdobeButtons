@@ -182,7 +182,7 @@ var RequestLicence = app.trustedFunction(function(oDoc){
 		var user_code=LicenceDlg.strCode;
 
 		if (user_code!=null){
-			var fURL="https://europe-west2-ogden8.cloudfunctions.net/LICENCE?unique_code="+user_code;
+			var fURL="https://europe-west2-ogden8.cloudfunctions.net/LICENCE?unique_code="+user_code+"&product=Adobe";
 			var ajaxCallback = {
 				response:function(msg,uri,e){
 					var stream = msg;
