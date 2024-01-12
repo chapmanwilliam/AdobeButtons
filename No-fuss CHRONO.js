@@ -329,7 +329,7 @@ function PrintChronoOPML(ChronoBkMks, oDoc){
 				//var text_string="\""+DateStr+"\""+ delimiter + "\"" + nm + "\"" + delimiter +  "\""+ PageReference + "\""+endofline ;
 				var text_string="<outline "
 				text_string+="text=\""
-				if (ChronoBkMks[i].D) {
+				if (ChronoBkMks[i].D) { //z
 					text_string += "&lt;time startYear=&quot;" + ChronoBkMks[i].D.getFullYear().toString() + "&quot; ";
 					text_string += "startMonth=&quot;" + (ChronoBkMks[i].D.getMonth()+1).toString() + "&quot; ";
 					text_string += "startDay=&quot;" + (ChronoBkMks[i].D.getDate()).toString() + "&quot; ";
