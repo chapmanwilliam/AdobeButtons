@@ -4,8 +4,58 @@ var item_id_Str="741";
 var DoLICENCE = app.trustedFunction(function(oDoc)
 {
 	app.beginPriv();
+<<<<<<< HEAD
 	RequestLicence(oDoc);
 	app.endPriv();
+=======
+	SetEasyUniqueInstallationCode(null);
+	
+	//ResetLicences(); //to reset the licence data as if new installation
+	//return;
+
+	var license_str=GetEasyUniqueInstallationCode();
+	if(license_str!=null) license_str=license_str.toString();
+	
+	if (license_str!=null){ 
+	    var fURL="https://www.nfschedule.com/?edd_action=check_license&item_id=" + item_id_Str + "&license=" + license_str;
+		var ajaxCallback = {
+			response:function(msg,uri,e){
+				var stream = msg;
+				var string = "";
+				var error = e == undefined? 'No HTTP errors' : "ERROR: " + e;
+				string = SOAP.stringFromStream( stream );
+				oResult = JSON.parse(string);
+
+				console.println("Checking for " & license_str);
+				//Set the various things
+				if(oResult.success==true){
+					//Successful activation. Therefore set
+					if(oResult.license=="valid") {
+						SetEasyActivation(1);
+						console.println("valid");
+					}else{
+						console.println("not valid");
+						SetEasyActivation(0);
+					}
+					SetEasyLicenseLimit(oResult.license_limit);
+					SetEasyActivationsLeft(oResult.activations_left);
+					SetEasyLicenseExpiry(oResult.expires);
+				}else{
+					//failure of some sort	
+					app.alert("Unable to check the licence");
+				}
+				RequestEasyLicence();
+			}
+		};
+		ajax(fURL, ajaxCallback);
+	}else{
+		RequestEasyLicence();	
+	}
+
+
+app.endPriv();
+
+>>>>>>> 9a8c3ab (first commit)
 });
 
 
@@ -17,6 +67,163 @@ ajax = app.trustedFunction(function(fURL, ajaxCallback) {
 });
 
 
+<<<<<<< HEAD
+=======
+CheckEasyLicense = app.trustedFunction(function(license_str) {
+    app.beginPriv();
+//    var license_str="372728f82c6fba81a79d3b9269d88144";
+	var license_str=GetEasyUniqueInstallationCode();
+	if(license_str!=null) license_str=license_str.toString();
+	if(license_str!=null){
+		var fURL="https://www.nfschedule.com/?edd_action=check_license&item_id=" + item_id_Str + "&license=" + license_str;
+		var ajaxCallback = {
+			response:function(msg,uri,e){
+				var stream = msg;
+				var string = "";
+				var error = e == undefined? 'No HTTP errors' : "ERROR: " + e;
+				string = SOAP.stringFromStream( stream );
+				oResult = JSON.parse(string);
+
+				console.println("Checking for " & license_str);
+				//Set the various things
+				if(oResult.success==true){
+					//Successful activation. Therefore set
+					if(oResult.license=="valid") {
+						SetEasyActivation(1);
+						console.println("valid");
+					}else{
+						console.println("not valid");
+						SetEasyActivation(0);
+					}
+					SetEasyLicenseLimit(oResult.license_limit);
+					SetEasyActivationsLeft(oResult.activations_left);
+					SetEasyLicenseExpiry(oResult.expires);
+				}else{
+					//failure of some sort	
+				}
+			}
+		};
+		ajax(fURL, ajaxCallback);
+	}else{
+		//null license
+	}
+    app.endPriv();
+});
+
+activatelicence = app.trustedFunction(function(license_str) {
+    app.beginPriv();
+    var fURL="https://www.nfschedule.com/?edd_action=activate_license&item_id=" + item_id_Str + "&license=" + license_str;
+
+	// process the response
+	var ajaxCallback = {
+    	response:function(msg,uri,e){
+			var stream = msg;
+			var string = "";
+			var error = e == undefined? 'No HTTP errors' : "ERROR: " + e;
+			string = SOAP.stringFromStream( stream );
+			oResult = JSON.parse(string);
+
+			console.println("Activation attempted " & license_str);
+			console.println(error);
+			console.println(string);
+
+			//Set the various things
+			if(oResult.success==true){
+				//Successful activation. Therefore set
+				if(oResult.license=="valid") {
+					SetEasyActivation(1);
+				}else{
+					SetEasyActivation(0);
+				}
+				SetEasyLicenseLimit(oResult.license_limit);
+				SetEasyActivationsLeft(oResult.activations_left);
+				SetEasyLicenseExpiry(oResult.expires);
+				app.alert("Successfully activated on this computer.");
+			}else{
+				//failure of some sort	
+				app.alert("Problem activating on this computer. Please check internet connection.");
+			}
+    	}
+	};
+
+	ajax(fURL, ajaxCallback);
+
+    app.endPriv();
+});
+
+deactivatelicence = app.trustedFunction(function(license_str) {
+    app.beginPriv();
+    var fURL="https://www.nfschedule.com/?edd_action=deactivate_license&item_id=" + item_id_Str + "&license=" + license_str;
+	// process the response
+	var ajaxCallback = {
+    	response:function(msg,uri,e){
+			var stream = msg;
+			var string = "";
+			var error = e == undefined? 'No HTTP errors' : "ERROR: " + e;
+			string = SOAP.stringFromStream( stream );
+			oResult = JSON.parse(string);
+
+			console.println("Deactivation attempted for " & license_str);
+			console.println(error);
+			console.println(string);
+
+			//Set the various things
+			if(oResult.success==true){
+				//Successful activation. Therefore set
+				if(oResult.license=="deactivated") {
+					SetEasyActivation(0);
+				}
+				app.alert("Successfully deactivated on this computer.");
+			}else{
+				//failure of some sort	
+				app.alert("Unable to deactivate on this computer. Please check internet connection.");
+			}
+    	}
+	};
+
+	ajax(fURL, ajaxCallback);
+    app.endPriv();
+});
+
+deletelicence = app.trustedFunction(function(license_str) {
+    app.beginPriv();
+    var fURL="https://www.nfschedule.com/?edd_action=deactivate_license&item_id=" + item_id_Str + "&license=" + license_str;
+	// process the response
+	var ajaxCallback = {
+    	response:function(msg,uri,e){
+			var stream = msg;
+			var string = "";
+			var error = e == undefined? 'No HTTP errors' : "ERROR: " + e;
+			string = SOAP.stringFromStream( stream );
+			oResult = JSON.parse(string);
+
+			console.println("Deactivation attempted for " & license_str);
+			console.println(error);
+			console.println(string);
+
+			//Set the various things
+			if(oResult.success==true){
+				//Successful activation. Therefore set
+				if(oResult.license=="deactivated") {
+					SetEasyActivation(0);
+					ResetLicences();
+				}
+				app.alert("Successfully deleted on this computer.");
+			}else{
+				//failure of some sort	
+				app.alert("Unable to delete on this computer. Please check internet connection.");
+			}
+    	}
+	};
+
+	ajax(fURL, ajaxCallback);
+    app.endPriv();
+});
+
+
+
+
+>>>>>>> 9a8c3ab (first commit)
  //</CodeAbove>
 
  //<JSCodeSnippet name="ImageData7">

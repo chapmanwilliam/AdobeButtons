@@ -390,7 +390,11 @@ function RemoveFileDates(Bm, nLevel, oDoc){
 
 var DoDATE_TOGGLE = app.trustedFunction(function(oDoc,oDlg)
 {
+<<<<<<< HEAD
 	if(!CheckPermitted())return;
+=======
+	if(!CheckLicence())return;
+>>>>>>> 9a8c3ab (first commit)
 
 	var nDepth = FindMaxBkDepth(oDoc.bookmarkRoot);
 	var n=FindNumBks(oDoc.bookmarkRoot.children,nDepth);

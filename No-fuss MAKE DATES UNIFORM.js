@@ -152,8 +152,13 @@ function GetDateFormatType(Bm){
 }
 
 function SwapDateFromTextElement(S, short_date, oDoc){
+<<<<<<< HEAD
 	//console.println("Swap Date from Text Element ")
 	//console.println(oDoc.path);
+=======
+	console.println("Swap Date from Text Element ")
+	console.println(oDoc.path);
+>>>>>>> 9a8c3ab (first commit)
 
 	var dt=GetDateFromString(S, oDoc);
 	var f=GetLocaleDate(oDoc); //whether this is UK or US
@@ -372,7 +377,11 @@ function GetDateText(Bm, oDoc){
 var DoUNIFORM = app.trustedFunction(function(oDoc)
 {
 	console.println("Make dates uniform");
+<<<<<<< HEAD
 	if(!CheckPermitted())return;
+=======
+	if(!CheckLicence())return;
+>>>>>>> 9a8c3ab (first commit)
 	var nDepth = FindMaxBkDepth(oDoc.bookmarkRoot);
 	var n=FindNumBks(oDoc.bookmarkRoot.children,nDepth);
 	Uni_Counter_thm=0;

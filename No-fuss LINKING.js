@@ -174,8 +174,13 @@ function MakePathDeviceIndependent(path){
 	//takes a string that is path and makes into device indepedent path i.e. forward slashes all the way
 	var ret=path.replace(/[\\]/g,"/").replace(":",""); //replace backslashes with forward slash; delete colons
 	if(ret.substring(0,1)!="/")ret="/"+ret; //add a leading forward slash if not there already
+<<<<<<< HEAD
 	//console.println("Original path: " + path);
 	//console.println("Device i/p path: " + ret);
+=======
+	console.println("Original path: " + path);
+	console.println("Device i/p path: " + ret);
+>>>>>>> 9a8c3ab (first commit)
 	return ret; 
 }
 
@@ -472,7 +477,11 @@ function RefreshLinkingOnly(oDoc){ //this simply updates the links without re-im
 var NF_DoLinking = app.trustedFunction(function(oDoc)
 {
 	app.beginPriv();
+<<<<<<< HEAD
 	if(!CheckPermitted())return false;
+=======
+	if(!CheckLicence())return false;
+>>>>>>> 9a8c3ab (first commit)
 	var PgNow=oDoc.pageNum;	
 	
 	//var page_data=[];

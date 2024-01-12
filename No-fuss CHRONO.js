@@ -65,7 +65,11 @@ function set_file_paths(oDoc){
 
 var No_FussMakeChronoMaker = app.trustedFunction(function(oDoc)
 {
+<<<<<<< HEAD
 	if(!CheckPermitted())return;
+=======
+	if(!CheckLicence())return;
+>>>>>>> 9a8c3ab (first commit)
 		
    app.beginPriv();
 
@@ -87,7 +91,10 @@ var No_FussMakeChronoMaker = app.trustedFunction(function(oDoc)
 		ChronoDlg.bDayofWeek= (typeof(oDoc.info.CHRONODayofWeek) != "undefined" ? oDoc.info.CHRONODayofWeek : true);		
 		ChronoDlg.bSepFile= (typeof(oDoc.info.CHRONOSepFile) != "undefined" ? oDoc.info.CHRONOSepFile : true);
 		ChronoDlg.bAge= (typeof(oDoc.info.CHRONOAge) != "undefined" ? oDoc.info.CHRONOAge : true);		
+<<<<<<< HEAD
 		ChronoDlg.bAvReps= (typeof(oDoc.info.CHRONOAvoidRepeats) != "undefined" ? oDoc.info.CHRONOAvoidRepeats : true);
+=======
+>>>>>>> 9a8c3ab (first commit)
 		ChronoDlg.nLvlMax = nDepth.toString();
 		 //Keep the persistent nLevel within bounds
 		if(oDoc.info.CHRONOnLevel){
@@ -107,7 +114,10 @@ var No_FussMakeChronoMaker = app.trustedFunction(function(oDoc)
 			oDoc.info.CHRONODayofWeek=ChronoDlg.bDayofWeek;
 			oDoc.info.CHRONOSepFile=ChronoDlg.bSepFile;
 			oDoc.info.CHRONOAge=ChronoDlg.bAge;
+<<<<<<< HEAD
 			oDoc.info.CHRONOAvoidRepeats=ChronoDlg.bAvReps;
+=======
+>>>>>>> 9a8c3ab (first commit)
 			
 	        if(ChronoDlg.bSepFile){ //create chronology in separate file
 	      		var rep=new Report();
@@ -126,7 +136,10 @@ var No_FussMakeChronoMaker = app.trustedFunction(function(oDoc)
 				oCHRONODoc.info.CHRONOnLevel=parseInt(ChronoDlg.nLevel,10);
 				oCHRONODoc.info.CHRONODayofWeek=ChronoDlg.bDayofWeek;
 				oCHRONODoc.info.CHRONOAge=ChronoDlg.bAge;
+<<<<<<< HEAD
 				oCHRONODoc.info.CHRONOAvoidRepeats=ChronoDlg.bAvReps;
+=======
+>>>>>>> 9a8c3ab (first commit)
 				oCHRONODoc.info.CHRONOSepFile=false;
 				oCHRONODoc.info.date_of_birth=oDoc.info.date_of_birth;
 				oCHRONODoc.info.date_of_injury=oDoc.info.date_of_injury;
@@ -143,7 +156,10 @@ var No_FussMakeChronoMaker = app.trustedFunction(function(oDoc)
 	    	    oCHRONODoc.ChronoBkMks.sort(compare);
 	    	    oCHRONODoc.set_file_paths(oCHRONODoc);
 	        	PrintChrono(oCHRONODoc.ChronoBkMks, oDoc);
+<<<<<<< HEAD
 				PrintChronoOPML(ChronoBkMks, oDoc);
+=======
+>>>>>>> 9a8c3ab (first commit)
 				oCHRONODoc.info.CHRONOExists=oCHRONODoc.WriteChronoReport(oCHRONODoc.ChronoBkMks, oCHRONODoc, ChronoDlg.strTitle, ChronoDlg.bDayofWeek, ChronoDlg.bAge);  //set flag to true if we successfully add CHRONO
 					      		
 	        }else{
@@ -178,9 +194,13 @@ function PrintChrono(ChronoBkMks, oDoc){
 	 //Chronology
 	var Old_Date=new Date("10/10/1066");  //set the default to a very old date
 
+<<<<<<< HEAD
 	var oldNm="";
 
 	for(var i=0;i<ChronoBkMks.length;i++){
+=======
+	for(i=0;i<ChronoBkMks.length;i++){
+>>>>>>> 9a8c3ab (first commit)
 	
 			 //Make the date string
 			 //console.println("Dates : " + Old_Date + ", " + ChronoBkMks[i].D);
@@ -198,6 +218,7 @@ function PrintChrono(ChronoBkMks, oDoc){
 			ChronoBkMks[i].nPageLabel ? PageReference=/*(ChronoDlg.bPageLabeltrue)?*/ChronoBkMks[i].nPageLabel/*:(ChronoBkMks[i].nPage).toString()*/: PageReference="";
 		
 			var nm="";
+<<<<<<< HEAD
 
 			if(ChronoBkMks[i].name) nm=ChronoBkMks[i].name.replace(delimiter,"_");
 
@@ -217,6 +238,18 @@ function PrintChrono(ChronoBkMks, oDoc){
 				//console.println("Not printing " + nm);
 			}
 			oldNm=nm; //make a note of this nm
+=======
+			if(ChronoBkMks[i].name) nm=ChronoBkMks[i].name.replace(delimiter,"_");
+		
+			 //Concatenate
+			var text_string="\""+DateStr+"\""+ delimiter + "\"" + nm + "\"" + delimiter +  "\""+ PageReference + "\""+endofline ;
+
+			//console.println(text_string);
+			 //console.println(text_string);
+			rep.writeText(text_string);
+			 //console.println("Here ");
+		
+>>>>>>> 9a8c3ab (first commit)
 	}
 	
 	var chrono_path=oDoc.path.replace(/\/[^\/]+pdf$/,"/");
@@ -229,6 +262,7 @@ function PrintChrono(ChronoBkMks, oDoc){
 	doc.closeDoc(true);
 }
 
+<<<<<<< HEAD
 function PrintChronoOPML(ChronoBkMks, oDoc){
 	var rep=new Report();
 	var delimiter="-";/*String.fromCharCode(35)+String.fromCharCode(64);*/
@@ -404,6 +438,8 @@ function PrintChronoOPML(ChronoBkMks, oDoc){
 
 }
 
+=======
+>>>>>>> 9a8c3ab (first commit)
 var mySaveAs = app.trustedFunction(
    function(oDoc,cPath,cFlName)
    {
@@ -412,7 +448,11 @@ var mySaveAs = app.trustedFunction(
       cPath = cPath.replace(/([^/])$/, "$1/");
       cPath=cPath.replace("'", "\'"); //escape the apostrophe
       cFlName=cFlName.replace("'", "\'"); //escape the apostrophe
+<<<<<<< HEAD
       //console.println(cPath+cFlName);
+=======
+      console.println(cPath+cFlName);
+>>>>>>> 9a8c3ab (first commit)
       //Check if this is a .txt or .pdf file
       var pattern_txt=/.txt$/i;
       var pattern_pdf=/.pdf$/i;
@@ -518,7 +558,10 @@ function WriteChronoReport (ChronoBkMks, oDoc, title, DayofWeek, bAge) {
 	var aBkmkData=[];
 	
 	rpt.indent(ind); //indent to allow for date
+<<<<<<< HEAD
 	var oTxt="";
+=======
+>>>>>>> 9a8c3ab (first commit)
 	
 	for(i=0;i<ChronoBkMks.length;i++){
 			var Fnt=GetFont(ChronoBkMks[i].sty);
@@ -555,6 +598,7 @@ function WriteChronoReport (ChronoBkMks, oDoc, title, DayofWeek, bAge) {
 			
 //			var cTxt=DateStr + "     " + ChronoBkMks[i].name;
 			var cTxt= ChronoBkMks[i].name ? ChronoBkMks[i].name: "";
+<<<<<<< HEAD
 
 			cTxt!=oTxt ? ChronoBkMks[i].inc=true: ChronoBkMks[i].inc=false;
 			oTxt=cTxt;
@@ -597,6 +641,46 @@ function WriteChronoReport (ChronoBkMks, oDoc, title, DayofWeek, bAge) {
 			}
 
 			//aBkmkData.push({cName:ChronoBkMks[i].name,rect:aLnRct, nLevel:nLvl, nBkPg:arguments.callee.nPage, nTextSize:aSizes[nLvl-1]});
+=======
+			 
+			nNmLen =  getTextWidth(oDoc,oDoc.numPages-1,nRplcSize,Fnt,false,cTxt);
+			nFill = (nPgWdth - nNmLen -ind - 10)/nScaledFiller;
+			for(var n=0;n<nFill;n++)
+				cTxt += " .";
+
+			rpt.size = nRptSize;
+			//console.println(cTxt);
+
+			rpt.color=ChronoBkMks[i].color;
+			rpt.style="DefaultNoteText";
+			if(ChronoBkMks[i].sty==2) rpt.style="NoteTitle";
+			
+			aLnRct= rpt.writeText(cTxt);
+			rpt.style="DefaultNoteText";
+			rpt.size = nRptSize;
+
+		   // Detect Page Change
+			if((aLnRct[3] > nLastPos) || (aLnRct[3] == aLnRct[1]))
+				nPage++;
+		
+			 // Correct for missed line
+			if(aLnRct[3] == aLnRct[1])
+			{
+				aLnRct[3] = pgHeight - 36;
+				aLnRct[1] = pgHeight - 36 - 11;
+			}
+		
+			nLastPos = aLnRct[3];
+
+			rpt.size = nRptSize/2;
+			aSpRct = rpt.writeText(" "); //create a small line of spaces
+			
+			ChronoBkMks[i].chrono_pg=nPage;
+			ChronoBkMks[i].rect=aLnRct;
+
+			//aBkmkData.push({cName:ChronoBkMks[i].name,rect:aLnRct, nLevel:nLvl, nBkPg:arguments.callee.nPage, nTextSize:aSizes[nLvl-1]});
+
+>>>>>>> 9a8c3ab (first commit)
 	}	
 
 	//delete the last page we used for comparison
@@ -672,13 +756,17 @@ function WriteChronoReport (ChronoBkMks, oDoc, title, DayofWeek, bAge) {
 			if(nMaxWdth > 54) nMaxWdth = 54;
 		}
 	}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9a8c3ab (first commit)
 		oTstAnt.destroy();
 
 		//ADD THE PAGE & DATE REFERENCE
 		nMaxWdth += 5;
 		Old_Date=new Date("10/10/1066");  //set the default to a very old date
 	
+<<<<<<< HEAD
 		for(var i=0;i<ChronoBkMks.length;i++) {
 			if (ChronoBkMks[i].inc || !ChronoDlg.bAvReps) {
 				var Fnt = GetFontForFields(ChronoBkMks[i].sty);
@@ -748,6 +836,77 @@ function WriteChronoReport (ChronoBkMks, oDoc, title, DayofWeek, bAge) {
 				}
 				ChronoBkMks[i].nRightExtent = pgRect[2] - 72 + nMaxWdth;
 			}
+=======
+		for(var i=0;i<ChronoBkMks.length;i++){
+			var Fnt=GetFontForFields(ChronoBkMks[i].sty);
+			var ind=0;
+			
+			//Page label
+			fldRect = [pgRect[2]-92,ChronoBkMks[i].rect[3],pgRect[2]-92 + nMaxWdth+25 ,ChronoBkMks[i].rect[1]];			
+			oFld = oDoc.addField("CHRONOPage"+i,"text", start_page_at_end + ChronoBkMks[i].chrono_pg, fldRect);
+			oFld.fillColor = color.white
+			oFld.width = 0;
+			oFld.alignment = "right";
+			oFld.textSize = 10; //make smaller for windows
+			oFld.textFont = Fnt;				
+			if (ChronoBkMks[i].color) oFld.textColor=ChronoBkMks[i].color;				
+			if(ChronoBkMks[i].nPageLabel) oFld.value = ChronoBkMks[i].nPageLabel;
+
+			//Date & Day & Age
+			Same_Date=SameDate(ChronoBkMks[i].D,Old_Date); //set flag
+			if(Same_Date==false){  //if this is a new date then write it, else don't
+				//check to see if any of the entries for this date are stylised
+				//console.println("Big style for " + ChronoBkMks[i].name +": " + BiggestStyleInBlock(i));
+				Fnt=GetFontForFields(BiggestStyleInBlock(i));
+				
+				//Date
+				fldRectDate=[pgRect[0]+10,ChronoBkMks[i].rect[3],pgRect[0]+10+60,ChronoBkMks[i].rect[1]];
+				oFldDt = oDoc.addField("CHRONODate"+i,"text", start_page_at_end + ChronoBkMks[i].chrono_pg, fldRectDate);
+				oFldDt.fillColor = color.white;
+				oFldDt.width = 0;
+				oFldDt.alignment = "left";
+				oFldDt.textSize = 10; //make smaller for windows
+				oFldDt.textFont = Fnt;
+				if(ChronoBkMks[i].color) oFldDt.textColor=ChronoBkMks[i].color;				
+				var DateStr=ChronoBkMks[i].DTxt;				
+				oFldDt.value = DateStr;
+				ind=ind+58;
+				if(DayofWeek){
+					//Day
+					fldRectDay=[pgRect[0]+ind,ChronoBkMks[i].rect[3],pgRect[0]+ind+20,ChronoBkMks[i].rect[1]];
+					oFldDay = oDoc.addField("CHRONODay"+i,"text", start_page_at_end + ChronoBkMks[i].chrono_pg, fldRectDay);
+					oFldDay.fillColor = color.white;
+					oFldDay.width = 0;
+					oFldDay.alignment = "left";
+					oFldDay.textSize = 10; //make smaller for windows
+					oFldDay.textFont = Fnt;				
+					if(ChronoBkMks[i].color) oFldDay.textColor=ChronoBkMks[i].color;				
+					//var DayStr=GetDayStr(ChronoBkMks[i].D);
+					oFldDay.value = ChronoBkMks[i].DyStr;
+					ind=ind+18;
+				}
+				if(bAge){
+					//Age
+					fldRectDay=[pgRect[0]+ind,ChronoBkMks[i].rect[3],pgRect[0]+ind+30,ChronoBkMks[i].rect[1]];
+					oFldDay = oDoc.addField("CHRONOAge"+i,"text", start_page_at_end + ChronoBkMks[i].chrono_pg, fldRectDay);
+					oFldDay.fillColor = color.white;
+					oFldDay.width = 0;
+					oFldDay.alignment = "center";
+					oFldDay.textSize = 10; //make smaller for windows
+					oFldDay.textFont = Fnt;				
+					if(ChronoBkMks[i].color)oFldDay.textColor=ChronoBkMks[i].color;				
+					//var DayStr=GetDayStr(ChronoBkMks[i].D);
+					//if(ChronoBkMks[i].age!=null) oFldDay.value = ChronoBkMks[i].age;
+					var age=Duration(ChronoBkMks[i].D,dob_C, 0,false);
+					if(age) oFldDay.value = age;
+				}
+	
+				Old_Date=ChronoBkMks[i].D;
+			}
+		
+
+			ChronoBkMks[i].nRightExtent=pgRect[2]-72 + nMaxWdth;
+>>>>>>> 9a8c3ab (first commit)
 		}
 		oDoc.flattenPages(start_page_at_end,start_page_at_end + nCHRONOPages - 1);
 
@@ -782,6 +941,7 @@ function WriteChronoReport (ChronoBkMks, oDoc, title, DayofWeek, bAge) {
 	// Add Links over Text
 	var lnkRect,oLnk;
 	for(var i=0;i<ChronoBkMks.length;i++){
+<<<<<<< HEAD
 		if(ChronoBkMks[i].inc || !ChronoDlg.bAvReps) {
 
 			if (typeof (ChronoBkMks[i].nRightExtent) != "undefined" || ChronoBkMks[i].rect) {
@@ -802,6 +962,26 @@ function WriteChronoReport (ChronoBkMks, oDoc, title, DayofWeek, bAge) {
 					oLnk.setAction("this.pageNum =" + p + ";");
 				}
 			}
+=======
+		if(typeof(ChronoBkMks[i].nRightExtent) != "undefined" || ChronoBkMks[i].rect){
+			lnkRect = [ChronoBkMks[i].rect[0], ChronoBkMks[i].rect[1], ChronoBkMks[i].nRightExtent, ChronoBkMks[i].rect[3]];
+			oLnk = oDoc.addLink(start_page_at_end + ChronoBkMks[i].chrono_pg, lnkRect);
+			oLnk.borderWidth = 0;
+			var p=ChronoBkMks[i].nPage + nCHRONOPages;
+			var p2=ChronoBkMks[i].nPage; //don't have to worry about additional chrono pages if this is external file
+			
+		    var code="";
+    		var q=String.fromCharCode(34);
+    		if(ChronoBkMks[i].fpath!="") {
+    			//code="NFPageOpenChrono_(this,"+rpath + ", "+p+");";
+//    			oLnk.setAction(code);
+				var rpath=ChronoBkMks[i].fpath;
+    			oLnk.setAction("NFPageOpenChrono(this,'"+rpath+"',"+p2+")");
+    		}else{
+			  	oLnk.setAction("this.pageNum =" +  p + ";");
+			}
+			
+>>>>>>> 9a8c3ab (first commit)
 		}
 	}
 	
@@ -841,7 +1021,11 @@ function WriteChronoReport (ChronoBkMks, oDoc, title, DayofWeek, bAge) {
 		oFld.textSize = 6; //make smaller for windows
 		oFld.textFont = Fnt;				
 		oFld.textColor=["RGB",0,0,1 ];	
+<<<<<<< HEAD
 		//console.println("ndepth: " + filepaths[i].nDepth);
+=======
+		console.println("ndepth: " + filepaths[i].nDepth);
+>>>>>>> 9a8c3ab (first commit)
 		if(filepaths[i].nDepth>0) oFld.value = parseInt(filepaths[i].nDepth,10);
 
 	}
@@ -857,7 +1041,11 @@ function WriteChronoReport (ChronoBkMks, oDoc, title, DayofWeek, bAge) {
 		oDoc.movePage(NewNumPages-1,nStartPage-1);
 	}
 	
+<<<<<<< HEAD
 	//console.println("Start page " + nStartPage);
+=======
+	console.println("Start page " + nStartPage);
+>>>>>>> 9a8c3ab (first commit)
 	oDoc.pageNum=nStartPage;
 	
 	app.endPriv();
@@ -970,11 +1158,18 @@ var DoChronoThisFile=app.trustedFunction(function(oDoc, nDepth){
 			clear_chrono_array();
 			SetKeyDates(oDoc);
 			CollectAllBookMarks(oDoc, oDoc.info.CHRONOnLevel);
+<<<<<<< HEAD
 			//console.println("Dob_C " + dob_C);
 	        ChronoBkMks.sort(compare);
 			set_file_paths(oDoc);
 	        PrintChrono(ChronoBkMks, oDoc);
 			PrintChronoOPML(ChronoBkMks, oDoc);
+=======
+			console.println("Dob_C " + dob_C);
+	        ChronoBkMks.sort(compare);
+			set_file_paths(oDoc);
+	        PrintChrono(ChronoBkMks, oDoc);
+>>>>>>> 9a8c3ab (first commit)
 			oDoc.info.CHRONOExists=WriteChronoReport(ChronoBkMks,oDoc, oDoc.info.CHRONOTitle, oDoc.info.CHRONODayofWeek, oDoc.info.CHRONOAge);  //set flag if we successfully add TOC
 	         //Clear the array
 	        clear_chrono_array();
@@ -1034,8 +1229,13 @@ function AddKeyDateToArray(str,dt_string, oDoc){
 var CollectAllBookMarks=app.trustedFunction(function(oDoc, nLvl){
 	var err="";
 	app.beginPriv();
+<<<<<<< HEAD
 	//console.println("collect all bookmarks");
 	//console.println(oDoc.path);
+=======
+	console.println("collect all bookmarks");
+	console.println(oDoc.path);
+>>>>>>> 9a8c3ab (first commit)
 
 	//Add key dates
 	if(oDoc.info.date_of_birth!=""){
@@ -1045,7 +1245,11 @@ var CollectAllBookMarks=app.trustedFunction(function(oDoc, nLvl){
 		AddKeyDateToArray("date of injury", oDoc.info.date_of_injury, oDoc);
 	}
 	
+<<<<<<< HEAD
 	//console.println("collect all bookmarks2");
+=======
+	console.println("collect all bookmarks2");
+>>>>>>> 9a8c3ab (first commit)
 
 	//First for this file
 	CollectBookMarks(oDoc.bookmarkRoot,0,oDoc, nLvl,"");	
@@ -1053,8 +1257,13 @@ var CollectAllBookMarks=app.trustedFunction(function(oDoc, nLvl){
 	//Then for the linked files
 	for(var i=0;i<filepaths.length;i++){
 		var abs_path=BuildAbsolutePath(oDoc,filepaths[i].path);
+<<<<<<< HEAD
 		//console.println("Abs path: " + abs_path);
 		//console.println("Rel path: " + filepaths[i].path);
+=======
+		console.println("Abs path: " + abs_path);
+		console.println("Rel path: " + filepaths[i].path);
+>>>>>>> 9a8c3ab (first commit)
 		file_open=IsPDFAlreadyOpen(abs_path); //boolean flag. True if file is already open
 		try{
 			//var doc=app.openDoc({cPath:filepaths[i].path, oDoc: oDoc, bHidden:true});
@@ -1073,7 +1282,11 @@ var CollectAllBookMarks=app.trustedFunction(function(oDoc, nLvl){
 		filepaths[i].MaxnDepth=mx_dp.toString();
 		if (doc.info.CHRONOnLevel>mx_dp)doc.info.CHRONOnLevel=mx_dp; //keep in bounds
 		if(filepaths[i].nDepth==undefined || filepaths[i].nDepth==""){
+<<<<<<< HEAD
 			//console.println("File path here: " + filepaths[i].nDepth);
+=======
+			console.println("File path here: " + filepaths[i].nDepth);
+>>>>>>> 9a8c3ab (first commit)
 			filepaths[i].nDepth=(doc.info.CHRONOnLevel ? doc.info.CHRONOnLevel : filepaths[i].MaxnDepth); //if max depth defined in linked pdf then use it if nothing better; else set to max
 		}
 				
@@ -1104,7 +1317,11 @@ var CollectAllBookMarks=app.trustedFunction(function(oDoc, nLvl){
 function CollectBookMarks(Bm, nLevel, oDoc, nLvlMax, filepath){
 
 	 //Iterate through the bookmark tree, get the name and date for each date stamped bookmark and push it to the array
+<<<<<<< HEAD
 	 //console.println("Collect1");
+=======
+	 console.println("Collect1");
+>>>>>>> 9a8c3ab (first commit)
 	
 	if(GetDate(Bm,oDoc) && Bm.style!=1){  //i.e. there is a date in this bookmark and it is not italicised
 		 //get the date from the bookmark name
@@ -1135,7 +1352,11 @@ function CollectBookMarks(Bm, nLevel, oDoc, nLvlMax, filepath){
 		//if (TimeStr!=null) {
 		//	BName=RemoveTimeString(BName); //remove time
 		//}
+<<<<<<< HEAD
 		//console.println("Collect1.5");
+=======
+		 console.println("Collect1.5");
+>>>>>>> 9a8c3ab (first commit)
 		BName=RemoveLegalNumThisFromString(BName);  //remove legal numbering
 		 //what you are left with is the name for the chrono entry
 		
@@ -1144,12 +1365,21 @@ function CollectBookMarks(Bm, nLevel, oDoc, nLvlMax, filepath){
 			TimeStr=GetTime(parentNm);
 			parentNm=RemovePageLabelFromString(parentNm);
 			parentNm=delete_date_end_string(Bm.parent, oDoc);
+<<<<<<< HEAD
 			//console.println("Collect3");
 			if(TimeStr!=null){
 				//console.println("Collect3.25");
 				parentNm=RemoveTimeString(parentNm);
 			}
 			//console.println("Collect3.5");
+=======
+			 console.println("Collect3");
+			if(TimeStr!=null){
+			 console.println("Collect3.25");
+				parentNm=RemoveTimeString(parentNm);
+			}
+			 console.println("Collect3.5");
+>>>>>>> 9a8c3ab (first commit)
 			parentNm=RemoveLegalNumThis(parentNm);
 			BName=parentNm;
 			//Bm.parent.name=parentNm;
@@ -1158,7 +1388,11 @@ function CollectBookMarks(Bm, nLevel, oDoc, nLvlMax, filepath){
 			BName=TimeStr+" " + BName;
 		}
 		
+<<<<<<< HEAD
 		//console.println("Collect4");
+=======
+		 console.println("Collect4");
+>>>>>>> 9a8c3ab (first commit)
 		var a_rect=[];
 		var a_pg=0;
 		var a_View=oDoc.viewState.toSource();
@@ -1178,7 +1412,11 @@ function CollectBookMarks(Bm, nLevel, oDoc, nLvlMax, filepath){
 			BM.DTxt=SwapDateFromText(", "+BM.D.getDate().toString()+"/"+(BM.D.getMonth()+1).toString()+ "/"+BM.D.getFullYear().toString(), true, oDoc);
 		}
 		
+<<<<<<< HEAD
 		//console.println("Collect5");
+=======
+		 console.println("Collect5");
+>>>>>>> 9a8c3ab (first commit)
 		//Add another BM if this is an age 10-20 type situation
 		if(patL.test(RemovePgLbAndLegalNumbering(Bm.name))){
 				var clone_BM=new ChronoBkMk();
@@ -1229,6 +1467,7 @@ function CollectBookMarks(Bm, nLevel, oDoc, nLvlMax, filepath){
 					}
 				}			
 		}
+<<<<<<< HEAD
 		//console.println("Collect6");
 		
 		//Date spans
@@ -1237,6 +1476,16 @@ function CollectBookMarks(Bm, nLevel, oDoc, nLvlMax, filepath){
 		if(!age_element.test(date_part) && !ages_element.test(date_part) && date_part.match("-")){ //i.e. not an age span, therefore a date span
 			var p=date_part.split("-"); //split by divider -
 		 //console.println("Collect6.2");
+=======
+		 console.println("Collect6");
+		
+		//Date spans
+		var date_part=GetDatePartFromString(RemovePgLbAndLegalNumbering(Bm.name),oDoc);
+		 console.println("Collect6.1");
+		if(!age_element.test(date_part) && !ages_element.test(date_part) && date_part.match("-")){ //i.e. not an age span, therefore a date span
+			var p=date_part.split("-"); //split by divider -
+		 console.println("Collect6.2");
+>>>>>>> 9a8c3ab (first commit)
 			if(p[0]){
 				var clone_BM=new ChronoBkMk();
 				clone_BM={fpath: BM.fpath, name: Bm.name, D: BM.D, DTxt: BM.DTxt, DyStr: BM.DyStr, T: BM.T, nPage: BM.nPage, nPageLabel: PgLabel, rect: BM.rect, chrono_pg: BM.chrono_pg, cView:BM.cView, nRightExtent: 0, color: BM.color, age: BM.age, sty: Bm.style};
@@ -1244,12 +1493,20 @@ function CollectBookMarks(Bm, nLevel, oDoc, nLvlMax, filepath){
 				BM.name=GetTimePartFromString(", "+ p[0])!=null ? "<"+GetTimePartFromString(", "+ p[0])+ " "+ RemovePgLbAndLegalNumbering(BM.name): "<"+RemovePgLbAndLegalNumbering(BM.name);
 				BM.D=MoveToStartPeriodString(", " + p[0], BM.D);
 				BM.D=GetDateFromString(", " + p[0], oDoc);
+<<<<<<< HEAD
 				//console.println("Collect6.3");
+=======
+				 console.println("Collect6.3");
+>>>>>>> 9a8c3ab (first commit)
 				//console.println(dob_C + " " + BM.name + " ==> "+ BM.D);
 				BM.DTxt=SwapDateFromText(", "+BM.D.getDate().toString()+"/"+(BM.D.getMonth()+1).toString()+ "/"+BM.D.getFullYear().toString(), true, oDoc);		
 				clone_BM.D=GetDateFromString(", " + p[1], oDoc);
 				clone_BM.D=MoveToEndPeriodString(", " + p[1], clone_BM.D);
+<<<<<<< HEAD
 				//console.println("Collect6.4");
+=======
+				 console.println("Collect6.4");
+>>>>>>> 9a8c3ab (first commit)
 				if(clone_BM.D){
 					var dur_str=Duration(clone_BM.D, BM.D,0,true);
 					if(dur_str)BM.name=BM.name+" ("+dur_str+")";
@@ -1261,17 +1518,29 @@ function CollectBookMarks(Bm, nLevel, oDoc, nLvlMax, filepath){
 					clone_BM.DyStr=GetDayStrBkFromString(", " + clone_BM.DTxt, oDoc);
 					ChronoBkMks.push(clone_BM);
 				}
+<<<<<<< HEAD
 		 //console.println("Collect6.5");
+=======
+		 console.println("Collect6.5");
+>>>>>>> 9a8c3ab (first commit)
 			}else{
 				BM.DTxt=SwapDateFromText(", "+BM.D.getDate().toString()+"/"+(BM.D.getMonth()+1).toString()+ "/"+BM.D.getFullYear().toString(), true, oDoc);		
 				BM.name=delete_date_end_string(Bm.name, oDoc);
 				BM.name=GetTimePartFromString(", "+ p[1])!=null ? GetTimePartFromString(", "+ p[1])+ " "+ RemovePgLbAndLegalNumbering(BM.name) + ">": RemovePgLbAndLegalNumbering(BM.name) +">";
+<<<<<<< HEAD
 		 //console.println("Collect6.6");
+=======
+		 console.println("Collect6.6");
+>>>>>>> 9a8c3ab (first commit)
 			}
 		}
 	}
 
+<<<<<<< HEAD
 		 //console.println("Collect7");
+=======
+		 console.println("Collect7");
+>>>>>>> 9a8c3ab (first commit)
 	 //console.println("Level, Max level: " + nLevel + ", " + nLvlMax);
 
 	 // process children
@@ -1496,6 +1765,7 @@ function compare(a,b){
 	if(a.D>b.D){
 		return 1;
 	}
+<<<<<<< HEAD
 	//If the dates are the same, compare the page references
 	if(a.nPage<b.nPage){
 		return -1;
@@ -1503,6 +1773,8 @@ function compare(a,b){
 	if(a.nPage>b.nPage){
 		return 1;
 	}
+=======
+>>>>>>> 9a8c3ab (first commit)
 	return 0;
 }
 
@@ -1512,7 +1784,10 @@ var ChronoDlg =
     bDayofWeek:true,
     bAge:true,
     bSepFile:true,
+<<<<<<< HEAD
 	bAvReps: false,
+=======
+>>>>>>> 9a8c3ab (first commit)
     nLevel:"1",
 	nLvlMax:"1",
 	nPgMax:"2",
@@ -1527,7 +1802,10 @@ var ChronoDlg =
             "DyWk": this.bDayofWeek,
             "nAge": this.bAge,
             "SpFl": this.bSepFile,
+<<<<<<< HEAD
 			"AvRp": this.bAvReps,
+=======
+>>>>>>> 9a8c3ab (first commit)
         };
         dialog.load(dlgInit);
     },
@@ -1536,7 +1814,10 @@ var ChronoDlg =
         var oRslt = dialog.store();
 		this.bDayofWeek = oRslt["DyWk"];
 		this.bAge=oRslt["nAge"];
+<<<<<<< HEAD
 		this.bAvReps = oRslt["AvRp"];
+=======
+>>>>>>> 9a8c3ab (first commit)
 		this.bSepFile = oRslt["SpFl"];
         this.strTitle = oRslt["Titl"];
         this.nLevel = oRslt["nlvl"];
@@ -1660,6 +1941,7 @@ var ChronoDlg =
                                     },
         */                       ]
                             },
+<<<<<<< HEAD
 							{
 								type: "view",
 								alignment: "align_fill",
@@ -1682,6 +1964,16 @@ var ChronoDlg =
 										},
 									]
 							}
+=======
+                                  {
+                                        type: "check_box",
+                                        group_id: "LbTy",
+                                        item_id: "SpFl",
+                                        name: "Create in a separate file",
+                                        variable_Name: "bSepFile",
+                                    },
+							
+>>>>>>> 9a8c3ab (first commit)
                         ]
                     },
                     {

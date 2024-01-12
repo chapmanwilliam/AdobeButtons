@@ -168,7 +168,11 @@ function LabelsPresent(Bm, nLevel, oDoc){
 
 var DoTOGGLE = app.trustedFunction(function(oDoc)
 {
+<<<<<<< HEAD
 	if(!CheckPermitted())return;
+=======
+	if(!CheckLicence())return;
+>>>>>>> 9a8c3ab (first commit)
 
 	var Pg=oDoc.pageNum;  //note page number
 

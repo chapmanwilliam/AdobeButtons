@@ -3,7 +3,11 @@
 var CopyandFlatten = app.trustedFunction(function()
 { // Privileged context is necessary to prevent JavaScript warning messages on dialog
 
+<<<<<<< HEAD
    if(!CheckPermitted())return;
+=======
+   if(!CheckLicence())return;
+>>>>>>> 9a8c3ab (first commit)
 
    app.beginPriv();
    

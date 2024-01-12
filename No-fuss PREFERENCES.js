@@ -702,7 +702,11 @@ var DownloadPrefDialog=app.trustedFunction(function(PreferencesDlg){
 //Initial function on clicking button
 var NFSetupPreferences = app.trustedFunction(function(oDoc)
 {
+<<<<<<< HEAD
 	if(!CheckPermitted())return;
+=======
+	if(!CheckLicence())return;
+>>>>>>> 9a8c3ab (first commit)
 
 	app.beginPriv();
 

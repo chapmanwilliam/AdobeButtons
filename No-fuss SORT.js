@@ -1404,8 +1404,13 @@ function GetDateString(Dt)
 
 function GetDayStrBkFromString(S, oDoc){
 	//Returns day of the week for this bookmark assuming it points to an exact day
+<<<<<<< HEAD
 	 //console.println("GetDayStrBkFromString");
 	 //console.println(oDoc.path);
+=======
+	 console.println("GetDayStrBkFromString");
+	 console.println(oDoc.path);
+>>>>>>> 9a8c3ab (first commit)
 	if(GetTimePartFromString(S)){ //special case where there is a time element - assume this points to particular day
 		return GetDayStr(GetDateFromString(S, oDoc));
 	}
@@ -1526,7 +1531,11 @@ function GetMinMaxDates(Bm, nLvl, nLvlMax, oDoc)
 
 var DoSORT_BKMKS = app.trustedFunction(function(oDoc,oDlg)
 {
+<<<<<<< HEAD
 	if(!CheckPermitted())return;
+=======
+	if(!CheckLicence())return;
+>>>>>>> 9a8c3ab (first commit)
 
 
 	app.beginPriv();
