@@ -344,6 +344,8 @@ function PrintChronoOPML(ChronoBkMks, oDoc){
 				 //Concatenate
 				var text_string="<outline "
 				text_string+="text=\""
+// 			<outline text="&lt;time startYear=&quot;1988&quot; startMonth=&quot;4&quot; startDay=&quot;19&quot;&gt;Tue, Apr 19, 1988&lt;/time&gt; &lt;a href=&quot;http://www.google.co.uk&quot;&gt;dob&lt;/a&gt; C = 31/35" _note="as per w/s and medical records. Instructions (18/8/88) and Thomas report (18/4/88) and Shorvon (18/4/88) get it wrong. &#10;" />
+
 				if (ChronoBkMks[i].D) {
 					text_string += "&lt;time startYear=&quot;" + ChronoBkMks[i].D.getFullYear().toString() + "&quot; ";
 					text_string += "startMonth=&quot;" + (ChronoBkMks[i].D.getMonth()+1).toString() + "&quot; ";
@@ -795,7 +797,7 @@ function WriteChronoReport (ChronoBkMks, oDoc, title, DayofWeek, bAge) {
 					//code="NFPageOpenChrono_(this,"+rpath + ", "+p+");";
 					//    			oLnk.setAction(code);
 					var rpath = ChronoBkMks[i].fpath;
-					oLnk.setAction("NFPageOpenChrono(this,'" + rpath + "'," + p2 + ")");
+					oLnk.setAction("NFPageOpenChrono(this,\"+ " + rpath + "\"," + p2 + ")");
 				} else {
 					oLnk.setAction("this.pageNum =" + p + ";");
 				}
