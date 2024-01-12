@@ -1404,8 +1404,8 @@ function GetDateString(Dt)
 
 function GetDayStrBkFromString(S, oDoc){
 	//Returns day of the week for this bookmark assuming it points to an exact day
-	 console.println("GetDayStrBkFromString");
-	 console.println(oDoc.path);
+	 //console.println("GetDayStrBkFromString");
+	 //console.println(oDoc.path);
 	if(GetTimePartFromString(S)){ //special case where there is a time element - assume this points to particular day
 		return GetDayStr(GetDateFromString(S, oDoc));
 	}

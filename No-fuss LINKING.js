@@ -174,8 +174,8 @@ function MakePathDeviceIndependent(path){
 	//takes a string that is path and makes into device indepedent path i.e. forward slashes all the way
 	var ret=path.replace(/[\\]/g,"/").replace(":",""); //replace backslashes with forward slash; delete colons
 	if(ret.substring(0,1)!="/")ret="/"+ret; //add a leading forward slash if not there already
-	console.println("Original path: " + path);
-	console.println("Device i/p path: " + ret);
+	//console.println("Original path: " + path);
+	//console.println("Device i/p path: " + ret);
 	return ret; 
 }
 

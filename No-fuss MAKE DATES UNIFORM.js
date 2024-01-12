@@ -152,8 +152,8 @@ function GetDateFormatType(Bm){
 }
 
 function SwapDateFromTextElement(S, short_date, oDoc){
-	console.println("Swap Date from Text Element ")
-	console.println(oDoc.path);
+	//console.println("Swap Date from Text Element ")
+	//console.println(oDoc.path);
 
 	var dt=GetDateFromString(S, oDoc);
 	var f=GetLocaleDate(oDoc); //whether this is UK or US
