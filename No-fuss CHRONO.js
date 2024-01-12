@@ -797,7 +797,7 @@ function WriteChronoReport (ChronoBkMks, oDoc, title, DayofWeek, bAge) {
 					//code="NFPageOpenChrono_(this,"+rpath + ", "+p+");";
 					//    			oLnk.setAction(code);
 					var rpath = ChronoBkMks[i].fpath;
-					oLnk.setAction("NFPageOpenChrono(this,\"+ " + rpath + "\"," + p2 + ")");
+					oLnk.setAction("NFPageOpenChrono(this,"+ "\"" + rpath + "\"," + p2 + ")");
 				} else {
 					oLnk.setAction("this.pageNum =" + p + ";");
 				}
