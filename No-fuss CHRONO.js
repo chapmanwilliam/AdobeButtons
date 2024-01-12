@@ -87,6 +87,7 @@ var No_FussMakeChronoMaker = app.trustedFunction(function(oDoc)
 		ChronoDlg.bDayofWeek= (typeof(oDoc.info.CHRONODayofWeek) != "undefined" ? oDoc.info.CHRONODayofWeek : true);		
 		ChronoDlg.bSepFile= (typeof(oDoc.info.CHRONOSepFile) != "undefined" ? oDoc.info.CHRONOSepFile : true);
 		ChronoDlg.bAge= (typeof(oDoc.info.CHRONOAge) != "undefined" ? oDoc.info.CHRONOAge : true);		
+		ChronoDlg.bAvReps= (typeof(oDoc.info.CHRONOAvoidRepeats) != "undefined" ? oDoc.info.CHRONOAvoidRepeats : true);
 		ChronoDlg.nLvlMax = nDepth.toString();
 		 //Keep the persistent nLevel within bounds
 		if(oDoc.info.CHRONOnLevel){
@@ -232,6 +233,19 @@ function PrintChronoOPML(ChronoBkMks, oDoc){
 	var rep=new Report();
 	var delimiter="-";/*String.fromCharCode(35)+String.fromCharCode(64);*/
 	var endofline="";
+	var rtn="\r\n"
+	
+	var text_file="";
+	text_file+="<?xml version=\"1.0\"?>" + rtn;
+	text_file+="<opml version=\"2.0\">" + rtn;
+	text_file+="<head>" +rtn;
+	text_file+="<ownerEmail>" +rtn;
+	text_file+="wchapman10@gmail.com" +rtn;
+	text_file+="</ownerEmail>" +rtn;
+	text_file+="</head>" +rtn;
+	text_file+="<body>" +rtn;
+	text_file+="<outline text=\"Chrono\">" + rtn;
+
 
 	 //Heading
 	rep.size=1.2;
@@ -328,7 +342,6 @@ function PrintChronoOPML(ChronoBkMks, oDoc){
 				var m=clean_nm.match(/\{([^(^).]*)\}/g);
 				if (m) note=m.join("; ");
 				 //Concatenate
-				//var text_string="\""+DateStr+"\""+ delimiter + "\"" + nm + "\"" + delimiter +  "\""+ PageReference + "\""+endofline ;
 				var text_string="<outline "
 				text_string+="text=\""
 				if (ChronoBkMks[i].D) {
@@ -353,7 +366,8 @@ function PrintChronoOPML(ChronoBkMks, oDoc){
 					}
 					text_string += "/>";
 				}
-				rep.writeText(text_string +endofline);
+				rep.writeText(text_string +rtn);
+				text_file+=text_string + rtn;
 
 		    }else{
 				//console.println("Not printing " + nm);
@@ -365,15 +379,27 @@ function PrintChronoOPML(ChronoBkMks, oDoc){
 	rep.writeText("</body>" +endofline);
 	rep.writeText("</opml>" +endofline);
 
+	text_file+="</outline>" +rtn;
+	text_file+="</body>" +rtn;
+	text_file+="</opml>" +rtn;
+
 
 	var chrono_path=oDoc.path.replace(/\/[^\/]+pdf$/,"/");
 	 //console.println("This path :" + chrono_path);
 
 	 //rep.save(chrono_path);
-	var doc=rep.open("TEST");
+//	var doc=rep.open("TEST");
 
-	mySaveAs(doc,chrono_path, "chronology opml.txt");
-	doc.closeDoc(true);
+//	mySaveAs(doc,chrono_path, "chronology opml.txt");
+
+
+
+	this.createDataObject("chronology opml.txt", text_file);
+	this.exportDataObject({cName:"chronology opml.txt", nLaunch: 1});
+	this.removeDataObject("chronology opml.txt");
+
+//	doc.closeDoc(true);
+
 }
 
 var mySaveAs = app.trustedFunction(
