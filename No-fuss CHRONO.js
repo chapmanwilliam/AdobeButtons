@@ -21,7 +21,10 @@ function clear_filepaths_array(){
 function clear_chrono_array(){
 	while(ChronoBkMks.length>0)ChronoBkMks.pop(); //clear the array
 }
+////git
+ function test(){
 
+ }
 function clear_file_paths(oDoc){
 	oDoc.info.filepath1="";
 	oDoc.info.filepath2="";
