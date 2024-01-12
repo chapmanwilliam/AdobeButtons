@@ -106,6 +106,7 @@ var No_FussMakeChronoMaker = app.trustedFunction(function(oDoc)
 			oDoc.info.CHRONODayofWeek=ChronoDlg.bDayofWeek;
 			oDoc.info.CHRONOSepFile=ChronoDlg.bSepFile;
 			oDoc.info.CHRONOAge=ChronoDlg.bAge;
+			oDoc.info.CHRONOAvoidRepeats=ChronoDlg.bAvReps;
 			
 	        if(ChronoDlg.bSepFile){ //create chronology in separate file
 	      		var rep=new Report();
@@ -124,6 +125,7 @@ var No_FussMakeChronoMaker = app.trustedFunction(function(oDoc)
 				oCHRONODoc.info.CHRONOnLevel=parseInt(ChronoDlg.nLevel,10);
 				oCHRONODoc.info.CHRONODayofWeek=ChronoDlg.bDayofWeek;
 				oCHRONODoc.info.CHRONOAge=ChronoDlg.bAge;
+				oCHRONODoc.info.CHRONOAvoidRepeats=ChronoDlg.bAvReps;
 				oCHRONODoc.info.CHRONOSepFile=false;
 				oCHRONODoc.info.date_of_birth=oDoc.info.date_of_birth;
 				oCHRONODoc.info.date_of_injury=oDoc.info.date_of_injury;
