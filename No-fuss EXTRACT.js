@@ -203,10 +203,6 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 	var override={vert: "PosT", prefix: "OldPage_Label", col:"Green", nTxtSize:12}; //for override pagination
 	var num_ext=NumExtractions(BkMks);
 	//console.println("Num matches " + num_ext);
-	app.thermometer.end();
-	app.thermometer.value=0;
-	app.thermometer.duration=num_ext;
-	app.thermometer.begin();
 
 	if(BkMks==null || BkMks.length==0) return false;
 
@@ -215,9 +211,11 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 		BkMks.forEach(function(part, index, BkMks) {
 			BkMks[index].Name = BkMks[index].Name + " (" + BkMks[index].page_label + ")";
 		});
-		var n = FindNumBks(oDoc.bookmarkRoot.children, 10);
-		RemovePageLabels(oDoc.bookmarkRoot, 0, oDoc, n);  //Remove the page labels
-		AddPageLabels(oDoc.bookmarkRoot, 0, oDoc, n);  //Add the page labels
+
+		RemovePageLabels(oDoc.bookmarkRoot, 0, oDoc, 0);  //Remove the page labels
+
+		AddPageLabels(oDoc.bookmarkRoot, 0, oDoc, 0);  //Add the page labels
+
 		SearchReplace(oDoc.bookmarkRoot, 0, 10, oDoc, "[", "<");
 		SearchReplace(oDoc.bookmarkRoot, 0, 10, oDoc, "]", ">");
 	}
@@ -254,7 +252,7 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 		}
 	}
 	
-	
+
 	
 	var comb_del_pages=new Array(oDoc.numPages); //for storing which pages need deleting
 	for(var i=0;i<comb_del_pages.length;i++) comb_del_pages[i]=true; //i.e. set each page to true to delete by default
@@ -266,6 +264,7 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 
 	var counter=0;
 
+
 	for(var i=0;i<BkMks.length;i++){
 		//app.thermometer.text="Extracting page data from "+ i +" of " + app.thermometer.duration + " bookmarks."
 		
@@ -273,11 +272,9 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 			counter++;
 			console.println("The counter is " + counter);
 			
-			app.thermometer.value=counter;
-			//console.println(app.thermometer.value);
-			app.thermometer.text="Extracting page data from "+ counter +" of " + num_ext + " bookmarks."
-			console.println(app.thermometer.value + " " + app.thermometer.duration);
-		
+			app.status=counter;
+
+
 			var s=BkMks[i].PageRef;
 			//console.println("Index " +i+ " length " + page_data.length);
 			//var e=GetNextBm(oDoc,i,page_data);
@@ -293,7 +290,9 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 				path=p+BkMks[i].Name + ".pdf";
 				//console.println("Path " + path + " Start " + s + " End " + e);				
 				//Save a copy of the entire current document
-				try{
+					console.println("before save doc therm " + app.thermometer.value);
+
+					try{
 					oDoc.saveAs({
 						cPath: path,
 						bCopy: true
@@ -305,12 +304,15 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 					BkMks[i].OK=false; //flag this one as a problem
 				}
 			
-				//Open the saved copy and delete the non-required pages & bookmarks
+					console.println("before new doc created therm " + app.thermometer.value);
+
+					//Open the saved copy and delete the non-required pages & bookmarks
 				try{
 					var new_doc=app.openDoc({
 						cPath: path,
 						bHidden: true
 				});
+					//reset
 
 
 					//delete the non-required pages (do the end pages first to keep the numbering correct)
@@ -349,7 +351,8 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 
 					//Remove [], legal numbering and pagination
 					//Remove []
-					RemovePageLabels(new_doc.bookmarkRoot, 0, new_doc,0);  //Remove the page labels
+
+					RemovePageLabels(new_doc.bookmarkRoot, 0, new_doc, 0);  //Remove the page labels
 					new_doc.info.SqExists=false;
 
 					//Remove legal numbering
@@ -358,7 +361,6 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 
 					//Remove pagination
 					RemovePagination(new_doc, false);
-					new_doc.info.PaginationExists=false;
 
 					//Normalise the style and colour
 					Normalise(new_doc.bookmarkRoot,0,new_doc);
@@ -378,18 +380,14 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 		
 		}
 	}
-	app.thermometer.end();
-	app.thermometer.value=0;
-	app.thermometer.duration=comb_del_pages.length;
-	app.thermometer.begin();
+
+	app.status="";
 
 	if(Combine){ //Deal with the combined file if chosen
 		//Delete the pages from the combined file
 		try{
 			for(var i=comb_del_pages.length-1;i>=0;i--){
-					//console.println(i + " " + comb_del_pages[i]);
-					app.thermometer.value++;
-					app.thermometer.text="Extracting page data from "+ i +" of " + comb_del_pages.length + " bookmarks."
+					app.status=i;
 					if(comb_del_pages[i]) comb_doc.deletePages({nStart:i});
 				}
 			ErrorReport+="Saved pages to single file in the same folder as the original.\n\n";
@@ -398,8 +396,8 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 			ErrorReport+="Problem removing pages from combined file\n\n";
 		}
 
-		app.thermometer.end();
-
+		app.status="";
+		
 		//Insert folder bookmark
 		comb_doc.bookmarkRoot.createChild("Folder_BM");
 		var Folder_BM=comb_doc.bookmarkRoot.children[0];
@@ -426,7 +424,7 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 
 
 	if(OldPagination && !Combine){ //Remove old pagination from old doc
-		RemovePagination(oDoc,false,true);
+		RemovePagination(oDoc,false,false);
 	}
 
 	if(DeleteExisting) ErrorReport+=DeleteExtractedPages(oDoc, BkMks);
