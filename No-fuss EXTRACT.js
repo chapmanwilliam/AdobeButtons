@@ -1,4 +1,6 @@
-//*******************************************\\
+
+
+ //*******************************************\\
  //This extracts pages from emboldened bookmarks
 
 var ex_thm_count=0;
@@ -240,184 +242,184 @@ function Normalise(Bm, nLevel, new_doc){ //make all the bookmarks in the new doc
 
 var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisting, OldPagination)
 {
-    app.beginPriv();
-    try{
-        //Extracts bookmarks in colour into separate file
-        //Returns true if all ok
-        var ErrorReport="";
-        
-        var override={vert: "PosT", prefix: "OldPage_Label", col:"Green", nTxtSize:12}; //for override pagination
-        var num_ext=NumExtractions(BkMks);
-        //console.println("Num matches " + num_ext);
-        app.thermometer.end();
-        app.thermometer.value=0;
-        app.thermometer.duration=num_ext;
-        app.thermometer.begin();
+	//Extracts bookmarks in colour into separate file
+	//Returns true if all ok
+	var ErrorReport="";
+	app.beginPriv();
+	
+	var override={vert: "PosT", prefix: "OldPage_Label", col:"Green", nTxtSize:12}; //for override pagination
+	var num_ext=NumExtractions(BkMks);
+	//console.println("Num matches " + num_ext);
+	app.thermometer.end();
+	app.thermometer.value=0;
+	app.thermometer.duration=num_ext;
+	app.thermometer.begin();
 
-        if(BkMks==null || BkMks.length==0) return false;
+	if(BkMks==null || BkMks.length==0) return false;
 
-        if(OldPagination) {
-            //Add page source to bookmark file names
-            BkMks.forEach(function(part, index, BkMks) {
-                BkMks[index].Name = BkMks[index].Name + " (" + BkMks[index].page_label + ")";
-            });
-            var n = FindNumBks(oDoc.bookmarkRoot.children, 10);
-            RemovePageLabels(oDoc.bookmarkRoot, 0, oDoc, n);  //Remove the page labels
-            AddPageLabels(oDoc.bookmarkRoot, 0, oDoc, n);  //Add the page labels
-            SearchReplace(oDoc.bookmarkRoot, 0, 10, oDoc, "[", "<");
-            SearchReplace(oDoc.bookmarkRoot, 0, 10, oDoc, "]", ">");
-        }
+	if(OldPagination) {
+		//Add page source to bookmark file names
+		BkMks.forEach(function(part, index, BkMks) {
+			BkMks[index].Name = BkMks[index].Name + " (" + BkMks[index].page_label + ")";
+		});
+		var n = FindNumBks(oDoc.bookmarkRoot.children, 10);
+		RemovePageLabels(oDoc.bookmarkRoot, 0, oDoc, n);  //Remove the page labels
+		AddPageLabels(oDoc.bookmarkRoot, 0, oDoc, n);  //Add the page labels
+		SearchReplace(oDoc.bookmarkRoot, 0, 10, oDoc, "[", "<");
+		SearchReplace(oDoc.bookmarkRoot, 0, 10, oDoc, "]", ">");
+	}
 
 
-		var p=oDoc.path.replace(/\/[^\/]+pdf$/,"/");
-		var doc_name=oDoc.documentFileName.replace(/\.pdf$/i,"");
-		var comb_path=p+ doc_name + " (extracted).pdf";
-		if(Combine){ //if we're doing a single file
-			//Save a copy of the entire current document for use with the combined extracted file
-			try{
-				oDoc.saveAs({
-				cPath: comb_path,
-				bCopy: true
-				});
-			}catch (e){
-				console.println("Problem saving extracted file " + comb_path);
-				ErrorReport+="Problem saving extracted file " + comb_path + "\n\n";
-			}
-		
-			//Open the saved copy and delete the non-required pages & bookmarks
-			try{
-			var comb_doc=app.openDoc({
-				cPath: comb_path,
-				bHidden: true
-				});
-				//Add old pages to top right
-				if(OldPagination) {
-					AddPagination(comb_doc, override);
-				}
-			}catch (e){
-				console.println("Problem opening extracted file " + comb_path);
-				ErrorReport+="Problem opening extracted file " + comb_path + "\n\n";	
-			}
+	var p=oDoc.path.replace(/\/[^\/]+pdf$/,"/");
+	var doc_name=oDoc.documentFileName.replace(/\.pdf$/i,"");
+	var comb_path=p+ doc_name + " (extracted).pdf";
+	if(Combine){ //if we're doing a single file
+		//Save a copy of the entire current document for use with the combined extracted file
+		try{
+			oDoc.saveAs({
+			cPath: comb_path,
+			bCopy: true
+			});
+		}catch (e){
+			console.println("Problem saving extracted file " + comb_path);
+			ErrorReport+="Problem saving extracted file " + comb_path + "\n\n";
 		}
-		
-		
-		
-		var comb_del_pages=new Array(oDoc.numPages); //for storing which pages need deleting
-		for(var i=0;i<comb_del_pages.length;i++) comb_del_pages[i]=true; //i.e. set each page to true to delete by default
-
-		//Add old pages to top right on existing doc to save time
-		if(OldPagination && !Combine) {
-			AddPagination(oDoc, override);
+	
+		//Open the saved copy and delete the non-required pages & bookmarks
+		try{
+		var comb_doc=app.openDoc({
+			cPath: comb_path,
+			bHidden: true
+			});
+			//Add old pages to top right
+			if(OldPagination) {
+				AddPagination(comb_doc, override);
+			}
+		}catch (e){
+			console.println("Problem opening extracted file " + comb_path);
+			ErrorReport+="Problem opening extracted file " + comb_path + "\n\n";	
 		}
+	}
+	
+	
+	
+	var comb_del_pages=new Array(oDoc.numPages); //for storing which pages need deleting
+	for(var i=0;i<comb_del_pages.length;i++) comb_del_pages[i]=true; //i.e. set each page to true to delete by default
+
+	//Add old pages to top right on existing doc to save time
+	if(OldPagination && !Combine) {
+		AddPagination(oDoc, override);
+	}
 
 
-		for(var i=0;i<BkMks.length;i++){
-			//app.thermometer.text="Extracting page data from "+ i +" of " + app.thermometer.duration + " bookmarks."
+	for(var i=0;i<BkMks.length;i++){
+		//app.thermometer.text="Extracting page data from "+ i +" of " + app.thermometer.duration + " bookmarks."
+		
+		if(BkMks[i].extract){ //if this is one to extract
+		
+			app.thermometer.value=i;
+			//console.println(app.thermometer.value);
+			app.thermometer.text="Extracting page data from "+ i +" of " + num_ext + " bookmarks."
+			//console.println(app.thermometer.value + " " + app.thermometer.duration);
+		
+			var s=BkMks[i].PageRef;
+			//console.println("Index " +i+ " length " + page_data.length);
+			//var e=GetNextBm(oDoc,i,page_data);
+			var e=BkMks[i].PageEnd;
+			//i>=page_data.length-1 ?	e=oDoc.numPages-1: e=page_data[i+1].start_page-1;
+			//pages to keep for combined file
+			for(var j=s;j<=e;j++) comb_del_pages[j]=false;
 			
-			if(BkMks[i].extract){ //if this is one to extract
 			
-				app.thermometer.value=i;
-				//console.println(app.thermometer.value);
-				app.thermometer.text="Extracting page data from "+ i +" of " + num_ext + " bookmarks."
-				//console.println(app.thermometer.value + " " + app.thermometer.duration);
 			
-				var s=BkMks[i].PageRef;
-				//console.println("Index " +i+ " length " + page_data.length);
-				//var e=GetNextBm(oDoc,i,page_data);
-				var e=BkMks[i].PageEnd;
-				//i>=page_data.length-1 ?	e=oDoc.numPages-1: e=page_data[i+1].start_page-1;
-				//pages to keep for combined file
-				for(var j=s;j<=e;j++) comb_del_pages[j]=false;
-				
-				
-				
-				if(!Combine){
-					path=p+BkMks[i].Name + ".pdf";
-					//console.println("Path " + path + " Start " + s + " End " + e);				
-					//Save a copy of the entire current document
-					try{
-						oDoc.saveAs({
-							cPath: path,
-							bCopy: true
-						});
-						ErrorReport+="Saved: " + BkMks[i].Name + ".pdf" + "\n\n";
-					}catch (e){
-						console.println("Problem saving extracted file " + path);
-						ErrorReport+="\n"+"Problem saving extracted file " + path + "\n\n";
-						BkMks[i].OK=false; //flag this one as a problem
-					}
-				
-					//Open the saved copy and delete the non-required pages & bookmarks
-					try{
-						var new_doc=app.openDoc({
-							cPath: path,
-							bHidden: true
+			
+			if(!Combine){
+				path=p+BkMks[i].Name + ".pdf";
+				//console.println("Path " + path + " Start " + s + " End " + e);				
+				//Save a copy of the entire current document
+				try{
+					oDoc.saveAs({
+						cPath: path,
+						bCopy: true
 					});
-
-
-						//delete the non-required pages (do the end pages first to keep the numbering correct)
-						if(e<oDoc.numPages-1) new_doc.deletePages({nStart: e+1, nEnd: new_doc.numPages-1}); //from the page after the end to the end of the document
-						if(s>0) new_doc.deletePages({nStart: 0, nEnd:s-1}); //from the beginning of doc to page before start
-
-
-						//delete the non_required bookmarks
-						//move the index bookmark to the start; delete the rest
-						ext_count=0;
-						//console.println("Finding " + i);
-						var index_bm=FindBookmark(new_doc.bookmarkRoot, 0, new_doc, i);
-						if(index_bm==null){
-								console.println("Error: index_bm is null");
-							}else{
-								//console.println("Index bookmark " + index_bm.name);
-								new_doc.bookmarkRoot.insertChild(index_bm);
-						}
-						//Delete the other bookmarks
-						var l=new_doc.bookmarkRoot.children.length;
-						for(var j=1;j<l;j++) new_doc.bookmarkRoot.children[new_doc.bookmarkRoot.children.length-1].remove();
-						//Now move any children of the top bookmark to the top (starting from the last
-						var top_bm=new_doc.bookmarkRoot.children[0];
-						if(top_bm!=null){
-							if(top_bm.children!=null){
-								var l=top_bm.children.length;
-								for(var j=0;j<l;j++) new_doc.bookmarkRoot.insertChild(top_bm.children[top_bm.children.length-1]);
-							}else{
-								//console.println("Top bm children is null");
-							}
-						}else{
-							console.println("Error: Top bm is null");
-						}
-						//delete the last bookmark (now empty parent)
-						new_doc.bookmarkRoot.children[new_doc.bookmarkRoot.children.length-1].remove();
-
-						//Remove [], legal numbering and pagination
-						//Remove []
-						RemovePageLabels(new_doc.bookmarkRoot, 0, new_doc,0);  //Remove the page labels
-						new_doc.info.SqExists=false;
-
-						//Remove legal numbering
-						RemoveLegalNum(new_doc.bookmarkRoot, 0, new_doc, 0);  //Remove the legal numbering
-						new_doc.info.LegalNumExists=false;
-
-						//Remove pagination
-						RemovePagination(new_doc, false);
-						new_doc.info.PaginationExists=false;
-
-						//Normalise the style and colour
-						Normalise(new_doc.bookmarkRoot,0,new_doc);
-
-						//Save the new_doc
-						new_doc.saveAs({cPath: path});
-						//Close the new_doc
-						new_doc.closeDoc({bNoSave:true});
-						//Add doc to comb_doc
-						//comb_doc.insertPages({cPath: path, nPage:-1});
-				}catch(e){
-						console.println("Problem opening copy extracted file " + path + " " + e);
-						ErrorReport+="Problem opening copy extracted file " + path + "\n\n";
-						BkMks[i].OK=false; //flag this one as a problem file
+					ErrorReport+="Saved: " + BkMks[i].Name + ".pdf" + "\n\n";
+				}catch (e){
+					console.println("Problem saving extracted file " + path);
+					ErrorReport+="\n"+"Problem saving extracted file " + path + "\n\n";
+					BkMks[i].OK=false; //flag this one as a problem
 				}
-			  }
 			
+				//Open the saved copy and delete the non-required pages & bookmarks
+				try{
+					var new_doc=app.openDoc({
+						cPath: path,
+						bHidden: true
+				});
+
+
+					//delete the non-required pages (do the end pages first to keep the numbering correct)
+					if(e<oDoc.numPages-1) new_doc.deletePages({nStart: e+1, nEnd: new_doc.numPages-1}); //from the page after the end to the end of the document
+					if(s>0) new_doc.deletePages({nStart: 0, nEnd:s-1}); //from the beginning of doc to page before start
+
+
+					//delete the non_required bookmarks
+					//move the index bookmark to the start; delete the rest
+					ext_count=0;
+					//console.println("Finding " + i);
+					var index_bm=FindBookmark(new_doc.bookmarkRoot, 0, new_doc, i);
+					if(index_bm==null){
+							console.println("Error: index_bm is null");
+						}else{
+							//console.println("Index bookmark " + index_bm.name);
+							new_doc.bookmarkRoot.insertChild(index_bm);
+					}
+					//Delete the other bookmarks
+					var l=new_doc.bookmarkRoot.children.length;
+					for(var j=1;j<l;j++) new_doc.bookmarkRoot.children[new_doc.bookmarkRoot.children.length-1].remove();
+					//Now move any children of the top bookmark to the top (starting from the last
+					var top_bm=new_doc.bookmarkRoot.children[0];
+					if(top_bm!=null){
+						if(top_bm.children!=null){
+							var l=top_bm.children.length;
+							for(var j=0;j<l;j++) new_doc.bookmarkRoot.insertChild(top_bm.children[top_bm.children.length-1]);
+						}else{
+							//console.println("Top bm children is null");
+						}
+					}else{
+						console.println("Error: Top bm is null");
+					}
+					//delete the last bookmark (now empty parent)
+					new_doc.bookmarkRoot.children[new_doc.bookmarkRoot.children.length-1].remove();
+
+					//Remove [], legal numbering and pagination
+					//Remove []
+					RemovePageLabels(new_doc.bookmarkRoot, 0, new_doc,0);  //Remove the page labels
+					new_doc.info.SqExists=false;
+
+					//Remove legal numbering
+					RemoveLegalNum(new_doc.bookmarkRoot, 0, new_doc, 0);  //Remove the legal numbering
+					new_doc.info.LegalNumExists=false;
+
+					//Remove pagination
+					RemovePagination(new_doc, false);
+					new_doc.info.PaginationExists=false;
+
+					//Normalise the style and colour
+					Normalise(new_doc.bookmarkRoot,0,new_doc);
+
+					//Save the new_doc
+					new_doc.saveAs({cPath: path});
+					//Close the new_doc
+					new_doc.closeDoc({bNoSave:true});
+					//Add doc to comb_doc
+					//comb_doc.insertPages({cPath: path, nPage:-1});
+			}catch(e){
+					console.println("Problem opening copy extracted file " + path + " " + e);
+					ErrorReport+="Problem opening copy extracted file " + path + "\n\n";
+					BkMks[i].OK=false; //flag this one as a problem file
+			}
+		  }
+		
 		}
 	}
 	app.thermometer.end();
@@ -703,8 +705,7 @@ function CalculateChunkSizes(oDoc){
 
 var DoEXTRACT = app.trustedFunction(function(oDoc)
 {
-    app.beginPriv();
-    try{
+	app.beginPriv();
 	if(!CheckPermitted())return;
 
 	var Pg=oDoc.pageNum;  //note page number
@@ -744,20 +745,89 @@ var DoEXTRACT = app.trustedFunction(function(oDoc)
 		var ErrorReport=CheckPageData(BkMks);
 		ErrorReport+=ExtractPages(oDoc,BkMks,Combine, DeleteExisting, OldPagination);
 	
-        app.alert(ErrorReport);	
+/*		if(!Combine)app.alert(NumSuccessfulExtractions(BkMks) + " successfully extracted files.\n\nThey are saved in the same folder as the main file.\n\n" + ErrorReport);
+		if(Combine){
+			if(ErrorReport==""){
+					app.alert("Extracted successfully to single file.\n\nSaved in the same folder as the main file.\n\n");
+				}else{
+					app.alert("Problem extracting to single file.\n\n" + ErrorReport);
+				}
+			}
+*/
+		app.alert(ErrorReport);	
 	
 		oDoc.pageNum=Pg;  //reset page number to where it started
 		
 	}
-    }finally{
-        try{ app.thermometer.end(); }catch(e){}
-        try{ app.thermometer.value=0; }catch(e){}
-        try{ app.thermometer.duration=0; }catch(e){}
-        app.endPriv();
-    }
+	
+	  app.endPriv();
     return 0;
 });
+ //</CodeAbove>
 
+ //<JSCodeSnippet name="ImageData7">
+var strData7EXTRACT = 
+"ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000c0000000000000000000000000000000000000000000000000000000ff000000ff000000f0000000800000004000000040000000400000004000000040000000400000004000000040000000a0000000c0000000000000000000000000000000000000000000000000000000ff000000ff000000ff000000ff000000c00000004000000000000000000000000000000000000000000000000000000080000000c0000000000000000000000000000000000000000000000000000000ff000000ff000000ff000000ff000000ff000000ff000000c0000000300000000000000000000000000000000000000080000000c0000000000000000a00000000000000000000000000000000000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000800000000000000000000000000000000000000080000000c000000000000000d50000002a000000000000000000000000000000ff000000ff000000ff000000ff000000ff000000ff000000ff0000008000000000000000000000000000000000000000000000000000000000000000ff000000f5000000600000000000000000000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000800000000000000000000000c0000000c0000000c0000000c0000000c0000000ff000000ff000000ff000000a00000000a000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000800000000000000000000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000aa000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000800000000000000000000000c0000000c0000000c0000000c0000000c0000000ff000000ff000000ff0000009f0000000a000000ff000000ff000000ff000000ff000000ff000000ff000000ff0000008000000000000000000000000000000000000000000000000000000000000000ff000000f50000005f0000000000000000000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000800000000000000000000000000000000000000080000000c000000000000000d40000002a000000000000000000000000000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000800000000000000000000000000000000000000080000000c0000000000000000a00000000000000000000000000000000000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000800000000000000000000000000000000000000080000000c0000000000000000000000000000000000000000000000000000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000800000000000000000000000000000000000000080000000c0000000000000000000000000000000000000000000000000000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000800000000000000000000000000000000000000080000000c0000000000000000000000000000000000000000000000000000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000c000000000000000000000000000000000000000000000000000000080000000f0000000ff000000ff000000ff000000ff000000ff000000a0000000400000004000000040000000400000004000000030000000000000000000000000000000000000000000000000000000000000001000000080000000f0000000ff000000ff000000ff000000800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000080000000f0000000ff000000800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000008000000070000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"; //</JSCodeSnippet>
+
+
+ // Icon Generic Stream Object
+ //<JSCodeSnippet name="ButtonIconDef">
+var oIconEXTRACT = null;
+ //if(app.viewerVersion < 7){
+ //}else{
+oIconEXTRACT = {count: 0, width: 20, height: 20,
+read: function(nBytes){return strData7EXTRACT.slice(this.count, this.count += nBytes);}};
+ //}
+ //</JSCodeSnippet>
+
+ //<JSCodeSnippet name="EventCode">
+var DoCmdEXTRACT = 
+"DoEXTRACT(event.target);"
+ //</JSCodeSnippet>
+
+ //<JSCodeSnippet name="ButtonObjDef">
+var oButObjEXTRACT = 
+{cName: "EXTR",
+cExec: DoCmdEXTRACT,
+cEnable: "event.rc = (app.doc != null) && (app.doc.bookmarkRoot) && app.doc.bookmarkRoot.children && (app.doc.bookmarkRoot.children.length > 0)",
+//cMarked: "event.rc = (app.doc != null) && LabelsPresent(app.doc.bookmarkRoot,0,app.doc)",
+//cMarked: "event.rc = (app.doc != null) && app.doc.info.SqExists",
+cTooltext: "Extracts pages from coloured bookmarks",
+cLabel: "Extract pages",
+nPos: 4};
+ //</JSCodeSnippet>
+if(oIconEXTRACT != null)
+    oButObjEXTRACT.oIcon = oIconEXTRACT;
+
+try{app.removeToolButton("EXTR");}catch(e){}
+
+ //<JSCodeSnippet name="TryAddBut">
+try
+{
+ //</JSCodeSnippet>
+ //<JSCodeSnippet name="AddButtonfn">
+    app.addToolButton(oButObjEXTRACT);
+ //</JSCodeSnippet>
+// if((event.type == "Doc") && (app.viewerVersion >= 7))
+//    global["EXTRACT_InDoc"] = "1:17:2011:17:55:45";
+// else
+//    global["EXTRACT_InDoc"] = "1:17:2011:17:55:45";
+ //<JSCodeSnippet name="CatchAddBut">
+}catch(e)
+{
+   if((global.bReportNameCollision != null) && (global.bReportNameCollision == true))
+   {
+    var strError = 'Cannot Install AcroButton "oButObjEXTRACT"\n';
+    strError += ':' + e.fileName + '\n';
+    strError += 'Error: ' + e.name + '\n';
+    strError += e.message + '\n';
+    strError += 'Possible Name conflict';
+    app.alert(strError,0,0,'AcroButton Error');
+   }
+}
+ //</JSCodeSnippet>
+ 
+ //</AcroButtons>
 
 
 
