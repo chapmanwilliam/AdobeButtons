@@ -96,53 +96,6 @@ function GetIndexNextBm(j,l){
 	return res;
 }
 
-function BuildPageDataFromBookmarks(Bm, nLevel, oDoc, p, i, n){ //NB: doesn't seem to be used
-	//zips thro bookmarks and adds page data
-	var data={};
-	var aPageMap=[]; MapPageLabelstoPages(oDoc,aPageMap);
-	ex_thm_count=ex_thm_count+1;
-	app.thermometer.value=ex_thm_count;
-	app.thermometer.text="Building page data ["+ex_thm_count+"] of " + n + " bookmarks."
-
-	
-	if(Bm.name!="Root" /*&& Bm.style==3 /*i.e. in bold*/){
-		Bm.execute();
-		
-		var old_name=Bm.name; //store the old name
-		data.PageEnd=getLengthDoc(Bm.name);
-		Bm.name=RemoveLegalNumThis(Bm);  //remove legal numbering
-		Bm.name=RemovePageLabel(Bm);	 //strip []
-		Bm.name=RemoveBraces(Bm);	 //strip {}
-		console.println('hello');
-		console.println(Bm.name);
-		Bm.name=MoveDateToStart(Bm); //moves the date to the start
-		data.bm_name=Bm.name;
-		data.bm_name=data.bm_name.replace("/", "-");//replace forward slashes with - to avoid folder confusion
-		Bm.name=old_name; //put the name back
-		
-		data.start_page=oDoc.pageNum;
-		data.page_label=oDoc.getPageLabel(oDoc.pageNum);
-		data.level=nLevel;
-		data.OK=true;
-		color.equal(Bm.color,color.black) ? data.extract=false : data.extract=true; //flags non-black bookmarks
-		Bm.style==2 ? data.link =true: data.link=false; //flags bookmarks in bold for linking
-		//console.println(Bm.color);
-		
-		//Add to collection
-		p.push(data);
-		//console.println(data.bm_name + " " + data.start_page + " Extract " + data.extract);
-	}
-	
-	 // process children
-	if (Bm.children != null){	
-		for (var i = 0; i < Bm.children.length; i++){	
-			if(BuildPageDataFromBookmarks(Bm.children[i], nLevel + 1, oDoc, p, i, n)==true) return true;
-		}
-	}
-	return false;	
-
-
-}
 
 function CheckPageData(BkMks){
 	//returns true if the page data ok
@@ -159,7 +112,7 @@ function CheckPageData(BkMks){
 		app.thermometer.text="Checking page data "+i+" of " + BkMks.length + " bookmarks."
 
 		if(BkMks[i].PageRef<s && BkMks[i].extract) {
-			console.println(BkMks[i].Name + " page " + BkMks[i].page_label);
+			//console.println(BkMks[i].Name + " page " + BkMks[i].page_label);
 			ErrorReport+="Bookmark " + page_data[i].bm_name + " at page " + BkMks[i].page_label + " not in page order."; 
 		}
 		s=BkMks[i].PageRef;
@@ -207,8 +160,8 @@ function NumExtractions(BkMks){
 	//returns the number of extractions
 	var num=0;
 	for(var i=0;i<BkMks.length;i++){
-		//console.println(BkMks[i].Name + ", " + BkMks[i].PageRef + "-" + BkMks[i].PageEnd + ", " + BkMks[i].Chunk);
-		if(BkMks[i].extract)  num+=1;
+		console.println(BkMks[i].Name + ", " + BkMks[i].PageRef + "-" + BkMks[i].PageEnd + ", " + BkMks[i].Chunk);
+		if(BkMks[i].extract) num+=1;
 	}
 	return num;
 }
@@ -311,16 +264,19 @@ var ExtractPages=app.trustedFunction(function(oDoc, BkMks, Combine, DeleteExisti
 		AddPagination(oDoc, override);
 	}
 
+	var counter=0;
 
 	for(var i=0;i<BkMks.length;i++){
 		//app.thermometer.text="Extracting page data from "+ i +" of " + app.thermometer.duration + " bookmarks."
 		
 		if(BkMks[i].extract){ //if this is one to extract
-		
-			app.thermometer.value=i;
+			counter++;
+			console.println("The counter is " + counter);
+			
+			app.thermometer.value=counter;
 			//console.println(app.thermometer.value);
-			app.thermometer.text="Extracting page data from "+ i +" of " + num_ext + " bookmarks."
-			//console.println(app.thermometer.value + " " + app.thermometer.duration);
+			app.thermometer.text="Extracting page data from "+ counter +" of " + num_ext + " bookmarks."
+			console.println(app.thermometer.value + " " + app.thermometer.duration);
 		
 			var s=BkMks[i].PageRef;
 			//console.println("Index " +i+ " length " + page_data.length);
@@ -830,5 +786,5 @@ try
  //</AcroButtons>
 
 
-
+ 
 
