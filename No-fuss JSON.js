@@ -489,7 +489,14 @@ replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
  * http://www.json.org/js.html
  * @singleton
  */
-Ext.util.JSON = {
+var __root = this;
+if (typeof __root.Ext === 'undefined') {
+    __root.Ext = {};
+}
+if (!__root.Ext.util) {
+    __root.Ext.util = {};
+}
+__root.Ext.util.JSON = {
     encode : function(o) {
         return JSON.stringify(o);
     },
@@ -506,7 +513,7 @@ Ext.util.JSON = {
  * @member Ext
  * @method encode
  */
-Ext.encode = Ext.util.JSON.encode;
+__root.Ext.encode = __root.Ext.util.JSON.encode;
 /**
  * Shorthand for {@link Ext.util.JSON#decode}
  * @param {String} json The JSON string
@@ -515,7 +522,6 @@ Ext.encode = Ext.util.JSON.encode;
  * @member Ext
  * @method decode
  */
-Ext.decode = Ext.util.JSON.decode;
-
+__root.Ext.decode = __root.Ext.util.JSON.decode;
 
 
