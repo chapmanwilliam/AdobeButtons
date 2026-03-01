@@ -874,16 +874,16 @@ function BiggestStyleInBlock(i){
 	var current_sty=ChronoBkMks[i].sty;
 	
 	do{
-		if(j>=ChronoBkMks.length-1) break;
+		if(j>=ChronoBkMks.length) break;
 		if(ChronoBkMks[j].sty>current_sty)current_sty=ChronoBkMks[j].sty;
-		j++;	
-	}while (SameDate(current_date, ChronoBkMks[j].D));
+		j++;
+	}while (j<ChronoBkMks.length && SameDate(current_date, ChronoBkMks[j].D));
 	
 	return current_sty;
 }
 
 function DepthFieldChange(){
-	if(!event.willCommitt && (event.changeEx!="")){
+	if(!event.willCommit && (event.changeEx!="")){
 		filepaths[parseInt(event.target.name.replace(/[^0-9\.]/g, ''), 10)].nDepth=event.changeEx;
 	}
 	set_file_paths(this);

@@ -196,7 +196,7 @@ var PDFS_MakeBkmkGROUP = app.trustedFunction(function(oDoc)
 						}
 						group_bkmk.remove(); //delete the group_bkmk
 					}else{
-						alert.app("Cancelled....");
+						app.alert("Cancelled....");
 						//reset the array
 						while(bkmk_array.length > 0) {
    							 bkmk_array.pop();

@@ -48,8 +48,8 @@ var CleanPages=app.trustedFunction(function(oDoc)
 	if(!oDoc){console.println("Null doc");return;}
 	oDoc.syncAnnotScan();
 	console.println("Cleaning document...");
-	var annots=oDoc.getAnnots();	
-	for (var i=0;i<annots.length; i++) annots[i].destroy();	
+	var annots=oDoc.getAnnots();
+	if(annots) for (var i=0;i<annots.length; i++) annots[i].destroy();	
 	app.endPriv();
 });
 
@@ -62,7 +62,7 @@ false = hide
 */
 
 var ocgArray = doc.getOCGs();
-for (var i=0; i < ocgArray.length; i++) {
+if(ocgArray) for (var i=0; i < ocgArray.length; i++) {
 if (ocgArray[i].name == "Watermark") {
 ocgArray[i].state = bState;
 } // end if Watermark

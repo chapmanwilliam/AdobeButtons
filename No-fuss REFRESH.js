@@ -261,7 +261,7 @@ var SetTrialStart = app.trustedFunction(function(n,dys=14){
 var GetTrialDate = app.trustedFunction(function(){
 	app.beginPriv();
 	var n=new Date();
-	if(!IsValidDate(global.no_fuss_trial_expiry_dd, global.no_fuss_trial_expiry_mm,global.no_fuss_trial_expiry_yy))SetTrialStart(n);
+	if(!IsValidDate(global.no_fuss_trial_expiry_dd, global.no_fuss_trial_expiry_mm+1,global.no_fuss_trial_expiry_yy))SetTrialStart(n);
 	var t=new Date(global.no_fuss_trial_expiry_yy, global.no_fuss_trial_expiry_mm,global.no_fuss_trial_expiry_dd);
 	//console.println("Trial date 2 " + global.no_fuss_trial_expiry_dd + ", " + global.no_fuss_trial_expiry_mm + ", " + global.no_fuss_trial_expiry_yy);
 	//console.println("Trial date " + t.toDateString());
@@ -301,7 +301,7 @@ var IssueReminder=app.trustedFunction(function(){
 var NoAlertToday=app.trustedFunction(function(){
 	//returns true if there has been no alert today
 	app.beginPriv();
-	if(typeof(global.no_fuss_licence_alert_yy)=="undefined" || (global.no_fuss_licence_alert_mm)=="undefined" || (global.no_fuss_licence_alert_dd)=="undefined" || !IsValidDate(global.no_fuss_licence_alert_dd, global.no_fuss_licence_alert_mm,global.no_fuss_licence_alert_yy)) return true; //i.e. no alert ever
+	if(typeof(global.no_fuss_licence_alert_yy)=="undefined" || typeof(global.no_fuss_licence_alert_mm)=="undefined" || typeof(global.no_fuss_licence_alert_dd)=="undefined" || !IsValidDate(global.no_fuss_licence_alert_dd, global.no_fuss_licence_alert_mm+1,global.no_fuss_licence_alert_yy)) return true; //i.e. no alert ever
 	var last_alert=new Date(global.no_fuss_licence_alert_yy, global.no_fuss_licence_alert_mm,global.no_fuss_licence_alert_dd);
 	var dt_now=new Date();
 	var diff=daysBetween(dt_now,last_alert);

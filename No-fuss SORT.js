@@ -76,15 +76,15 @@ function ConvertDateToUS(Bm){
 			a=Nm.match(patB);
 			a[0]=a[0].replace(com, "");
 			var part=a[0].split(/[\-\/\.]/);  //there should be three parts
-			mm=parseInt(part[0],10); //the first part is the day
-			dd=parseInt(part[1],10)-1; //the second part is the month
+			dd=parseInt(part[0],10); //the first part is the day
+			mm=parseInt(part[1],10)-1; //the second part is the month
 			yyyy=parseInt(part[2],10); //last part is the year
 			if(IsValidDate(dd,mm+1,yyyy)){ //check its a valid date we've got
 				var new_date_string=mm.toString()+"/"+dd.toString()+"/"+yyyy.toString();
 				s=Bm.name.replace(patB,new_date_string)
 			}		
 		break;
-		deafult:
+		default:
 			return Bm.name; //simply return what we got
 		break;
 	}
@@ -141,7 +141,7 @@ function ConvertDateToUK(Bm){
 				s=Bm.name.replace(patB,new_date_string)
 			}		
 		break;
-		deafult:
+		default:
 			return Bm.name; //simply return what we got
 		break;
 	}
@@ -1366,7 +1366,7 @@ function CheckForDuplicationsPage(oDoc)
 	}
 }
 
-/*function GetDate_(Bm){
+function GetDate_(Bm){
 	 //this returns a date or null if no date
 	var base_Dt=null;
 
@@ -1377,17 +1377,17 @@ function CheckForDuplicationsPage(oDoc)
 		if(yy<50){ //make it a year above 2000
 			var d=BkMkDate[BkMkDate.length-1].replace(bk_date_pattern,"$2/$1/20$3");  //turn the numbers round for US date
 		}else{ //make it a year after 1900
-			var d=BkMkDate[BkMkDate.length-1].replace(bk_date_pattern,"$2/$1/19$3");  //turn the numbers round for US date			
+			var d=BkMkDate[BkMkDate.length-1].replace(bk_date_pattern,"$2/$1/19$3");  //turn the numbers round for US date
 		}
  //		console.println("Raw text :" + " " + d);
 		Dt=new Date (d);
  //		console.println("Trans Date :"+ Dt);
-		return Dt;		
+		return Dt;
 	}else{
 		return base_Dt;
 	}
-return base_Dt;	
-}*/
+return base_Dt;
+}
 
 function GetDateString(Dt)
 {

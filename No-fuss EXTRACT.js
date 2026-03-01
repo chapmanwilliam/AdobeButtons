@@ -63,7 +63,7 @@ function GetNextBm(oDoc,i,p){
 	//returns the page no of the next bookmark for this p[i] n
 	//It's either the next bookmark in the same level or you have to keep going up the parent tree
 	var page=-1;
-	if(i>p.length || p.length==0){
+	if(i>=p.length || p.length==0){
 		console.println("Error in getting next Bm");
 		return -1;
 	}
@@ -75,7 +75,7 @@ function GetNextBm(oDoc,i,p){
 
 	if(i==p.length-1){page=oDoc.numPages-1; return page;}
 
-	do{	j+=1;}while (p[j].level!=n && j<p.length-1);
+	do{	j+=1;}while (j<p.length-1 && p[j].level!=n);
 
 //	console.println("j= " + j);
 

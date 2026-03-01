@@ -72,10 +72,9 @@ function FillArray(oDoc, bm, bStart, n, bSkipItalicised=false){
 
 	if (bm.children != null && !(bSkipItalicised && bm.style==1)){
 		 // if bm has children call recursively
-		for (var i = 0; i < bm.children.length; i++)  	  
+		for (var i = 0; i < bm.children.length; i++)
   			FillArray(oDoc, bm.children[i], bStart+1,n, bSkipItalicised);
 		}
-	app.thermometer.end();
 }
 
 function CheckParentChild(oDoc, BkMk){  //Check that a child does not point to the same page as the parent: if it does set the parent to point to same page as first child

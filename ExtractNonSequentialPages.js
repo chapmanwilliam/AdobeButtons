@@ -297,7 +297,7 @@ function process_this_line(resp, the_file, newDoc, delete_pages, page_maps, page
 
 	if (ranges[ranges.length-1]>the_file.numPages || (openEndedRange!=null && openEndedRange>the_file.numPages)) {
 		app.alert("ERROR! You entered a page number that is higher than the number of pages in this file ("+the_file.numPages+").");
-		return;
+		return 0;
 	}
 
 	if (openEndedRange!=null) {
@@ -307,7 +307,7 @@ function process_this_line(resp, the_file, newDoc, delete_pages, page_maps, page
 	}
 	if (ranges.length==0) {
 		app.alert("ERROR! No pages to extract.");
-		return;
+		return 0;
 	}
 //	console.println(ranges);
 	

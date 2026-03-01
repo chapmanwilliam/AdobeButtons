@@ -614,7 +614,7 @@ function FindBkPage(oDoc, bkmk, oPgMap, nLevel, nLevelMax,n, last_only)
         bkmk.children[i].execute();
         var ln=getLengthDoc(bkmk.children[i].name);
         if(ln)console.println("Length " + ln);
-        if((curPg != 0) || (oDoc.pagNum != (oDoc.numPages-1) )) { // Bookmark navigates somewhere
+        if((curPg != 0) || (oDoc.pageNum != (oDoc.numPages-1) )) { // Bookmark navigates somewhere
            var oCur = oPgMap[curPg + 1] ;
            if((oCur == null) || (oCur.level >= nLevel)){
            		//if(oPgMap[curPg]==null){  //only fill in if undefined already

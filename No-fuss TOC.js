@@ -655,7 +655,7 @@ function ExistingTOC(oDoc){
 	 //Function returns true if existing TOC
 	var pattern=/TOC_/;
 	var i=0;
-	while(i<oDoc.numFields+1){
+	while(i<oDoc.numFields){
 		var a=oDoc.getNthFieldName(i);
 		if(pattern.test(a)){
 			return true;	

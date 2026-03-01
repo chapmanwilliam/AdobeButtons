@@ -369,7 +369,7 @@ var DoItSearch=app.trustedFunction(function(oDoc,SearchReplaceDlg){
 			if((SearchReplaceDlg.strSrch=="" && SearchReplaceDlg.strRplc=="") || !bReplace) bReplace=false; //don't replace anything if both boxes blank
 			
 						
-			if(!global.bPgLbs)SearchReplace(oDoc.bookmarkRoot,0, SearchReplaceDlg.nLevel, oDoc, srch, global.strRplc, bReg, global.bMatchCase, SearchReplaceDlg.bColor, GetColor(SearchReplaceDlg.strTextCol), bDate, from_date, to_date, bWholeWords, bReplace, SearchReplaceDlg.bBold, SearchReplaceDlg.bItalics, SearchReplaceDlg.bPlain, global.bInclude_Non_Dates, SearchReplaceDlg.bItalics);
+			if(!global.bPgLbs)SearchReplace(oDoc.bookmarkRoot,0, SearchReplaceDlg.nLevel, oDoc, srch, global.strRplc, bReg, global.bMatchCase, SearchReplaceDlg.bColor, GetColor(SearchReplaceDlg.strTextCol), bDate, from_date, to_date, bWholeWords, bReplace, SearchReplaceDlg.bBold, SearchReplaceDlg.bItalics, SearchReplaceDlg.bPlain, global.bInclude_Non_Dates, SearchReplaceDlg.bSkipItalicised);
 			if(global.bPgLbs)SearchReplacePgLbs(oDoc, global.strSrch, global.strRplc, global.bRegex, global.bMatchCase);
 	
 	app.endPriv();

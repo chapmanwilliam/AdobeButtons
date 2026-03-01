@@ -100,7 +100,7 @@ function GetPageNumberLastSubs(oDoc){
 
 function IsThisPDForDoc(filePath){
 	 //returns true if this pdf or doc
-	var pat=/[.docx|.doc|.pdf]$/i;
+	var pat=/\.(docx|doc|pdf)$/i;
 	return pat.test(filePath);
 }
 
@@ -136,7 +136,7 @@ function DeleteExistingSubmissions(oDoc){
 function ExtensionPDF(path){
 	m=path.match(/\.[^.]*$/);
 	//console.println(m[0]);
-	if(m[0]!=null){
+	if(m!=null && m[0]!=null){
 	  return m[0]==".pdf" ? true : false;
 	}
 	return false;

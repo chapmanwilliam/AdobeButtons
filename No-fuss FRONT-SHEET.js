@@ -118,8 +118,6 @@ var MakeFrontSheet = app.trustedFunction(function(oDoc)
 			
 			
 			oFrontSheetDoc.closeDoc(true);
-			
-			oFrontSheetDoc.bringToFront();
 						
 			FillDefaultsFrontSheet(oDoc);
 			

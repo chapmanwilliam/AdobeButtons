@@ -144,12 +144,12 @@ var PreferencesDlg =
         }
 
     	//if(bDate){    	
-			if(!oRslt["dobC"]=="" && NoDateFromString(", " + oRslt["dobC"],this.doc)){
+			if(oRslt["dobC"]!="" && NoDateFromString(", " + oRslt["dobC"],this.doc)){
 				app.alert("No valid date of birth.");
 				return false;
 			}
-    	//if(bDate){    	
-			if(!oRslt["inju"]=="" && NoDateFromString(", " + oRslt["inju"], this.doc)){
+    	//if(bDate){
+			if(oRslt["inju"]!="" && NoDateFromString(", " + oRslt["inju"], this.doc)){
 				app.alert("No valid injury date.");
 				return false;
 			}
