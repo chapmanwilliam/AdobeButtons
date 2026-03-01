@@ -395,35 +395,37 @@ replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
  * To avoid ReferenceError: Ext is not defined, we only attach these
  * helpers if the global Ext namespace exists.
  */
-if (typeof Ext !== "undefined") {
-    Ext.util = Ext.util || {};
-
-    Ext.util.JSON = {
-        encode : function(o) {
-            return JSON.stringify(o);
-        },
-
-        decode : function(s) {
-            return JSON.parse(s);
-        }
-    };
-
-    /**
-     * Shorthand for {@link Ext.util.JSON#encode}
-     * @param {Mixed} o The variable to encode
-     * @return {String} The JSON string
-     * @member Ext
-     * @method encode
-     */
-    Ext.encode = Ext.util.JSON.encode;
-
-    /**
-     * Shorthand for {@link Ext.util.JSON#decode}
-     * @param {String} json The JSON string
-     * @param {Boolean} safe (optional) Whether to return null or throw an exception if the JSON is invalid.
-     * @return {Object} The resulting object
-     * @member Ext
-     * @method decode
-     */
-    Ext.decode = Ext.util.JSON.decode;
+var __root = this;
+if (typeof __root.Ext === 'undefined') {
+    __root.Ext = {};
 }
+if (!__root.Ext.util) {
+    __root.Ext.util = {};
+}
+__root.Ext.util.JSON = {
+    encode : function(o) {
+        return JSON.stringify(o);
+    },
+
+    decode : function(s) {
+        return JSON.parse(s);
+    }
+};
+
+/**
+ * Shorthand for {@link Ext.util.JSON#encode}
+ * @param {Mixed} o The variable to encode
+ * @return {String} The JSON string
+ * @member Ext
+ * @method encode
+ */
+__root.Ext.encode = __root.Ext.util.JSON.encode;
+/**
+ * Shorthand for {@link Ext.util.JSON#decode}
+ * @param {String} json The JSON string
+ * @param {Boolean} safe (optional) Whether to return null or throw an exception if the JSON is invalid.
+ * @return {Object} The resulting object
+ * @member Ext
+ * @method decode
+ */
+__root.Ext.decode = __root.Ext.util.JSON.decode;

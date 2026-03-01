@@ -85,7 +85,7 @@ return this.replace(/^\s+|\s+$/g, "");  // Regular expression magic
 var TogPageLabels=app.trustedFunction(function(oDoc)
 {
 
-app.beginPriv();
+	app.beginPriv();
 
 	var PgNow=oDoc.pageNum;	
 
