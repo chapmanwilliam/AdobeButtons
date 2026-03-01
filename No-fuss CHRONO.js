@@ -230,6 +230,7 @@ function PrintChrono(ChronoBkMks, oDoc){
 }
 
 function PrintChronoOPML(ChronoBkMks, oDoc){
+	return;
 	var rep=new Report();
 	var delimiter="-";/*String.fromCharCode(35)+String.fromCharCode(64);*/
 	var endofline="";
