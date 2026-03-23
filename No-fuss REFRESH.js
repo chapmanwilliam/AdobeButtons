@@ -187,7 +187,7 @@ var RequestLicence = app.trustedFunction(function(oDoc){
 				response:function(msg,uri,e){
 					var stream = msg;
 					var msgString = "";
-					var error = e == undefined? 'No HTTP errors' : "ERROR: " + e;
+					var error = e == undefined? 'No HTTP errors' : "ERROR: " + (e.message || String(e));
 					msgString = SOAP.stringFromStream( stream );
 					if (e==undefined) {
 						if (msgString == "True") {

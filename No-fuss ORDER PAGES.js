@@ -46,8 +46,10 @@ function FillArray(oDoc, bm, bStart, n, bSkipItalicised=false){
 		var e=0;
 		if(l)e=(p+l)-1;
 		//console.println("Page end: " + e);
-		var extract_this;
-		color.equal(bm.color,color.black) ? extract_this=false : extract_this=true; //flags non-black bookmarks
+		var ext;
+		//color.equal(bm.color,color.black) ? ext=false : ext=true; //flags non-black bookmarks
+		var safeBlack = ["RGB", 0, 0, 0];
+		var ext = !(bm.color.toString() === (typeof color !== 'undefined' ? color.black.toString() : safeBlack.toString()));
 		var lnk;
 		bm.style==2 ? lnk =true: lnk=false; //flags bookmarks in bold for linking
 
@@ -65,16 +67,17 @@ function FillArray(oDoc, bm, bStart, n, bSkipItalicised=false){
 		console.println("New name " + new_name);
 		bm.name=old_name; //put the name back
 		
-		var BkMk={Name: new_name, OK: true, Order: BkMks.length, PageRef:p, PageEnd:e, Chunk: 0, extract: extract_this, Link: lnk, Lvl: bStart, page_label: oDoc.getPageLabel(p)};
+		var BkMk={Name: new_name, OK: true, Order: BkMks.length, PageRef:p, PageEnd:e, Chunk: 0, extract: ext, Link: lnk, Lvl: bStart, page_label: oDoc.getPageLabel(p)};
 		BkMks.push(BkMk);
 		 //console.println(BkMks[BkMks.length-1].Order + " " + BkMks[BkMks.length-1].PageRef + " " + BkMks[BkMks.length-1].Chunk);
 	}
 
 	if (bm.children != null && !(bSkipItalicised && bm.style==1)){
 		 // if bm has children call recursively
-		for (var i = 0; i < bm.children.length; i++)
+		for (var i = 0; i < bm.children.length; i++)  	  
   			FillArray(oDoc, bm.children[i], bStart+1,n, bSkipItalicised);
 		}
+	app.thermometer.end();
 }
 
 function CheckParentChild(oDoc, BkMk){  //Check that a child does not point to the same page as the parent: if it does set the parent to point to same page as first child
